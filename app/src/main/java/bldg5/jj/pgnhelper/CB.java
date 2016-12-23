@@ -2,14 +2,10 @@ package bldg5.jj.pgnhelper;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TableLayout;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class CB
@@ -36,23 +32,27 @@ public class CB
 
             String[][] board = Snapshot.InitBoard();
 
-            for (int i=0; i < 8; i++) {
-                for (int j = 0; j < 8; j++) {
-                    String strPiece = board[i][j];
-                    strPiece = (strPiece == null) ? "": strPiece;
-
-                    if (strPiece != ""){
-                        ImageView imageView = (ImageView) findViewById(Snapshot.boardRIDs[i][j]);
-                        imageView.setImageResource(Snapshot.mapStringsToResources.get(board[i][j]));
-                    }
-                }
-            }
+            Drawboard(board);
         }
 
         // the recycle() will be executed obligatorily
         finally {
             // for reuse
             typedArray.recycle();
+        }
+    }
+
+    private void Drawboard(String[][] thisBoard) {
+        for (int i=0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                String strPiece = thisBoard[i][j];
+                strPiece = (strPiece == null) ? "": strPiece;
+
+                if (strPiece != ""){
+                    ImageView imageView = (ImageView) findViewById(Snapshot.boardRIDs[i][j]);
+                    imageView.setImageResource(Snapshot.mapStringsToResources.get(thisBoard[i][j]));
+                }
+            }
         }
     }
 
