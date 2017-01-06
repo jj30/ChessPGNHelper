@@ -6,6 +6,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import bldg5.jj.pgnhelper.common.Piece;
+
 public class Snapshot {
     public static final String xAxis = "abcdefgh";
     public static final String yAxis = "12345678";
@@ -68,10 +70,7 @@ public class Snapshot {
 
 
             board = transform("w", white, board);
-
-
-
-
+            board = transform("b", black, board);
         // }
 
         return board;
@@ -103,23 +102,39 @@ public class Snapshot {
             currentBoard[yDest][xDest] = currentBoard[ySource][xDest];
             currentBoard[ySource][xDest] = "";
         } else {
-            xDest = xAxis.indexOf(intersect(xAxis, xOther));
-            yDest = yAxis.indexOf(intersect(yAxis, xOther));
 
-            for (xSource = 0; xSource < 8; xSource++)
-            {
-                // x and y are the destination, but what's the source? find the pawn
+            try {
+                xDest = xAxis.indexOf(intersect(xAxis, move));
+                yDest = yAxis.indexOf(intersect(yAxis, move));
+                boolean bFound = false;
+
+                // in the array the y is the rows, the x is the columns
                 for (ySource = 0; ySource < 8; ySource++) {
-                    if (currentBoard[xSource][ySource].contains(wb + xOther.toLowerCase())) {
-                        break;
+                    for (xSource = 0; xSource < 8; xSource++) {
+                        String strPiece = currentBoard[ySource][xSource];
+
+                        if (strPiece == null)
+                            continue;
+
+                        Piece other = new Piece(xOther, xSource, ySource, xDest, yDest);
+                        bFound = strPiece.equals(wb + xOther.toLowerCase()) && other.isLegal();
+
+                        if (bFound)
+                            break;
                     }
+
+                    if (bFound)
+                        break;
                 }
+
+                // so the piece is at xSource, ySource
+                // and must move to xDest, yDest
+                currentBoard[yDest][xDest] = currentBoard[ySource][xSource];
+                currentBoard[ySource][xSource] = "";
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
             }
 
-            // so the piece is at xSource, ySource
-            // and must move to xDest, yDest
-            currentBoard[yDest][xDest] = currentBoard[xSource][ySource];
-            currentBoard[ySource][xSource] = "";
         }
 
         return currentBoard;

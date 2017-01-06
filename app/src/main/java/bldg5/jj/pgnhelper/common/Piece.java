@@ -57,7 +57,7 @@ public class Piece {
 
     public void setType(String strType) throws Exception {
         strType = strType.toUpperCase();
-        boolean bIsValid = (strType == "R") || (strType == "N") || (strType == "B") || (strType == "Q") || (strType == "K") || (strType == "P");
+        boolean bIsValid = strType.equals("R") || strType.equals("N") || strType.equals("B") || strType.equals("Q") || strType.equals("K") || strType.equals("P");
 
         if (bIsValid) {
             this.type = strType;
@@ -70,13 +70,13 @@ public class Piece {
         boolean bResult = false;
         boolean bCorrectSlope = false;
 
-        if (this.type == "R") {
+        if (this.type.equals("R")) {
             // slope is infinity or 0
             bResult = xDestination == x || yDestination == y;
             return bResult;
         }
 
-        if (this.type == "N") {
+        if (this.type.equals("N")) {
             // knight never moves to the same color
             bResult = (Board.squareColor(this.x, this.y) == "w" && Board.squareColor(this.xDestination, this.yDestination) == "b") ||
                     (Board.squareColor(this.x, this.y) == "b" && Board.squareColor(this.xDestination, this.yDestination) == "w");
@@ -89,7 +89,7 @@ public class Piece {
             return  bResult;
         }
 
-        if (this.type == "B") {
+        if (this.type.equals("B")) {
             // bishop stays on his color
             bResult = (Board.squareColor(this.x, this.y) == "w" && Board.squareColor(this.xDestination, this.yDestination) == "w") ||
                     (Board.squareColor(this.x, this.y) == "b" && Board.squareColor(this.xDestination, this.yDestination) == "b");
@@ -100,7 +100,7 @@ public class Piece {
             return  bResult;
         }
 
-        if (this.type == "Q") {
+        if (this.type.equals("Q")) {
             // queen can move like a rook or a bishop
             Piece bishop = new Piece("B");
             Piece rook = new Piece("R");
@@ -115,7 +115,7 @@ public class Piece {
             return bResult;
         }
 
-        if (this.type == "K") {
+        if (this.type.equals("K")) {
             // King ... one space in any direction
             // castle not implemented.
             bResult = yDestination == y + 1 ||
@@ -126,7 +126,7 @@ public class Piece {
             return bResult;
         }
 
-        if (this.type == "P") {
+        if (this.type.equals("P")) {
             // pawn. minus en passant.
             bResult = yDestination == y + 1 ||
                     yDestination == y - 1 ||
