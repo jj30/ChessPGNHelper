@@ -1,9 +1,16 @@
 package bldg5.jj.pgnhelper;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 public class Snapshot {
+    public static final String xAxis = "abcdefgh";
+    public static final String yAxis = "12345678";
+    public static final String nonPawns = "RNBQK";
+
     // board resource ID's. This is just the board wo the pieces
     public static final int[][] boardRIDs = {
             { R.id.row0col0, R.id.row0col1, R.id.row0col2, R.id.row0col3, R.id.row0col4, R.id.row0col5, R.id.row0col6, R.id.row0col7 },
@@ -47,5 +54,95 @@ public class Snapshot {
         board[7] = new String[] { "br", "bn", "bb", "bq", "bk", "bb", "bn", "br" };
 
         return board;
+    }
+
+    public static String[][] PGN2Board(JSONObject jsonPGN) throws JSONException {
+        String[][] board = InitBoard();
+
+        int nNumberMoves = jsonPGN.length();
+        // for (int i = 1; i < nNumberMoves + 1; i++) {
+            JSONObject move = (JSONObject) jsonPGN.get(String.valueOf(1));
+            String movePGN = move.get("S").toString();
+            String white = movePGN.split(" ")[0];
+            String black = movePGN.split(" ")[1];
+
+
+            board = transform("w", white, board);
+
+
+
+
+        // }
+
+        return board;
+    }
+
+    public static String[][] transform(String wb, String move, String[][] currentBoard) {
+        String xPawn = intersect(xAxis, move);
+        String yPawn = intersect(yAxis, move);
+        String xOther = intersect(nonPawns, move);
+
+        int xSource = 0;
+        int ySource = 0;
+        int xDest = 0;
+        int yDest = 0;
+
+        if (xOther.equals("")) {
+            xDest = xAxis.indexOf(xPawn);
+            yDest = yAxis.indexOf(yPawn);
+
+            // x and y are the destination, but what's the source? find the pawn
+            for (ySource = 0; ySource < 8; ySource++) {
+                if (currentBoard[ySource][xDest].contains(wb + "p")) {
+                    break;
+                }
+            }
+
+            // so the new board doesn't have a pawn at xDest, ySource
+            // but does have a pawn at xDest, yDest
+            currentBoard[yDest][xDest] = currentBoard[ySource][xDest];
+            currentBoard[ySource][xDest] = "";
+        } else {
+            xDest = xAxis.indexOf(intersect(xAxis, xOther));
+            yDest = yAxis.indexOf(intersect(yAxis, xOther));
+
+            for (xSource = 0; xSource < 8; xSource++)
+            {
+                // x and y are the destination, but what's the source? find the pawn
+                for (ySource = 0; ySource < 8; ySource++) {
+                    if (currentBoard[xSource][ySource].contains(wb + xOther.toLowerCase())) {
+                        break;
+                    }
+                }
+            }
+
+            // so the piece is at xSource, ySource
+            // and must move to xDest, yDest
+            currentBoard[yDest][xDest] = currentBoard[xSource][ySource];
+            currentBoard[ySource][xSource] = "";
+        }
+
+        return currentBoard;
+    }
+
+    public static String intersect(String one, String two) {
+        String strResult = "";
+        String[] oneAry = one.split("");
+        String[] twoAry = two.split("");
+
+        int i = 1;
+        int j = 1;
+
+        // only one character is expected
+        for (i = 1; i < oneAry.length; i++) {
+            for (j = 1; j < twoAry.length; j++ ) {
+                if (oneAry[i].equals(twoAry[j])) {
+                    strResult = oneAry[i];
+                    break;
+                }
+            }
+        }
+
+        return strResult;
     }
 }

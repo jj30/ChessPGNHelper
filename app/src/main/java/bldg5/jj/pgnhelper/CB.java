@@ -6,6 +6,11 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TableLayout;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.io.IOException;
+
+import bldg5.jj.pgnhelper.common.Utils;
 
 
 public class CB
@@ -28,15 +33,24 @@ public class CB
         try
         {
             int attr = typedArray.getIndex(0);
-            pgn = typedArray.getString(attr);
 
-            String[][] board = Snapshot.InitBoard();
+            String strSampleJSON = Utils.getJSONFromRaw(context, R.raw.sample_game);
+
+            JSONObject json = new JSONObject(strSampleJSON);
+            JSONObject jsonPGNS =  (JSONObject) json.get("PGN");
+            JSONObject jsonM = (JSONObject) jsonPGNS.get("M");
+
+
+            // String[][] board = Snapshot.InitBoard();
+            String[][] board = Snapshot.PGN2Board(jsonM);
 
             Drawboard(board);
         }
 
         // the recycle() will be executed obligatorily
-        finally {
+        catch (IOException | JSONException e) {
+            e.printStackTrace();
+        } finally {
             // for reuse
             typedArray.recycle();
         }
