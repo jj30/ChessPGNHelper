@@ -6,6 +6,9 @@ public class Piece {
     private int xDestination;
     private int yDestination;
     private String type; // poss types R, N, B, Q, K, P
+    private String color; // poss types w, b
+    private boolean bDoesCapture = false;
+    private String[][] board = new String[8][8];
 
     public Piece(String strType) throws Exception {
         setType(strType);
@@ -66,35 +69,67 @@ public class Piece {
         }
     }
 
+    public String getColor() {
+        return this.color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public boolean getDoesCapture() {
+        return this.bDoesCapture;
+    }
+
+    public void setbDoesCapture(boolean bDoesCapture) {
+        this.bDoesCapture = bDoesCapture;
+    }
+
+    public String[][] getBoard() {
+        return this.board;
+    }
+
+    public void setBoard(String[][] board) {
+        this.board = board;
+    }
+
     public boolean isLegal() throws Exception {
         boolean bResult = false;
         boolean bCorrectSlope = false;
+        boolean bCorrectDisplacement = false;
 
         if (this.type.equals("R")) {
             // slope is infinity or 0
             bResult = xDestination == x || yDestination == y;
+
             return bResult;
         }
 
         if (this.type.equals("N")) {
             // knight never moves to the same color
-            bResult = (Board.squareColor(this.x, this.y) == "w" && Board.squareColor(this.xDestination, this.yDestination) == "b") ||
-                    (Board.squareColor(this.x, this.y) == "b" && Board.squareColor(this.xDestination, this.yDestination) == "w");
+            bResult = !Board.squareColor(this.x, this.y).equals(Board.squareColor(this.xDestination, this.yDestination));
 
             // slope is 2 or .5
             bCorrectSlope = (Math.abs((yDestination - y) / (xDestination - x)) == 2) ||
                     (Math.abs(((yDestination - y) * 1.0) / (xDestination - x)) == 0.5d);
 
-            bResult = bResult && bCorrectSlope;
+            // max displacement in either horizontal or vertical is 3.
+            bCorrectDisplacement = Math.abs(yDestination - y) <= 3 && Math.abs(xDestination - x) <= 3;
+
+            bResult = bResult && bCorrectSlope && bCorrectDisplacement;
             return  bResult;
         }
 
         if (this.type.equals("B")) {
             // bishop stays on his color
-            bResult = (Board.squareColor(this.x, this.y) == "w" && Board.squareColor(this.xDestination, this.yDestination) == "w") ||
-                    (Board.squareColor(this.x, this.y) == "b" && Board.squareColor(this.xDestination, this.yDestination) == "b");
+            bResult = Board.squareColor(this.x, this.y).equals(Board.squareColor(this.xDestination, this.yDestination));
 
-            bCorrectSlope = Math.abs((yDestination - y) / (xDestination - x)) == 1;
+            try {
+                bCorrectSlope = Math.abs((yDestination - y) / (xDestination - x)) == 1;
+            } catch (ArithmeticException ex) {
+                // bishops don't move up and down like this. Divide by zero error.
+                bCorrectSlope = false;
+            }
 
             bResult = bResult && bCorrectSlope;
             return  bResult;
@@ -111,26 +146,37 @@ public class Piece {
             rook.setLocation(this.x, this.y);
             rook.setDestination(this.xDestination, this.yDestination);
 
-            bResult = bishop.isLegal() && rook.isLegal();
+            bResult = bishop.isLegal() || rook.isLegal();
             return bResult;
         }
 
         if (this.type.equals("K")) {
             // King ... one space in any direction
-            // castle not implemented.
+            // King two spaces to either g8 or g1
+            boolean bCastle = xDestination == 6 && (yDestination == 0 || yDestination == 7);
             bResult = yDestination == y + 1 ||
                     yDestination == y - 1 ||
                     xDestination == x + 1 ||
                     xDestination == x - 1;
+
+            bResult = (!bResult && bCastle) || bResult;
 
             return bResult;
         }
 
         if (this.type.equals("P")) {
             // pawn. minus en passant.
-            bResult = yDestination == y + 1 ||
-                    yDestination == y - 1 ||
-                    (y == 1 && yDestination == 3);
+            // a pawn can move horizontally one space either to or fro (if capturing)
+            boolean bHorizontalOk = (bDoesCapture && (xDestination - 1 == x || xDestination == x - 1)) ||
+                    (!bDoesCapture && x == xDestination);
+
+            if (this.color == "w") {
+                bResult = (yDestination == y + 1 && bHorizontalOk) ||
+                        (x == xDestination && y == 1 && yDestination == 3);
+            } else {
+                bResult = (yDestination == y - 1 && bHorizontalOk) ||
+                        (x == xDestination && y == 6 && yDestination == 4);
+            }
         }
 
         return  bResult;

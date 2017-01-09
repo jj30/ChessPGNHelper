@@ -1,6 +1,8 @@
 package bldg5.jj.pgnhelper;
 
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,28 +60,41 @@ public class Snapshot {
         return board;
     }
 
-    public static String[][] PGN2Board(JSONObject jsonPGN) throws JSONException {
+    public static String[][] PGN2Board(int toMoveNumber, JSONObject jsonPGN) throws JSONException {
         String[][] board = InitBoard();
+        int nLoop = (int) (toMoveNumber + 1) / 2;
 
-        int nNumberMoves = jsonPGN.length();
-        // for (int i = 1; i < nNumberMoves + 1; i++) {
-            JSONObject move = (JSONObject) jsonPGN.get(String.valueOf(1));
+        for (int i = 1; i <= nLoop; i++) {
+            JSONObject move = (JSONObject) jsonPGN.get(String.valueOf(i));
             String movePGN = move.get("S").toString();
             String white = movePGN.split(" ")[0];
             String black = movePGN.split(" ")[1];
 
-
             board = transform("w", white, board);
-            board = transform("b", black, board);
-        // }
+
+            if (i < nLoop)
+                board = transform("b", black, board);
+            else
+                // i == nLoop, last iteration
+                if (toMoveNumber % 2 == 0)
+                    board = transform("b", black, board);
+        }
 
         return board;
     }
 
     public static String[][] transform(String wb, String move, String[][] currentBoard) {
-        String xPawn = intersect(xAxis, move);
-        String yPawn = intersect(yAxis, move);
+        boolean bCapture = move.contains("x");
+        String destOnly  = bCapture ? move.split("x")[1] : move;
+        String xDestination = intersect(xAxis, destOnly);
+        String yDestination = intersect(yAxis, destOnly);
         String xOther = intersect(nonPawns, move);
+
+        // some moves use this to disambiguate, eg, two horses can move to the same square.
+        String hFileRank = move.replace(xOther, "")
+                .replace(xDestination, "")
+                .replace(yDestination, "")
+                .replace("x", "");
 
         int xSource = 0;
         int ySource = 0;
@@ -87,59 +102,131 @@ public class Snapshot {
         int yDest = 0;
 
         if (xOther.equals("")) {
-            xDest = xAxis.indexOf(xPawn);
-            yDest = yAxis.indexOf(yPawn);
+            // could be castling
+            if (move.equals("O-O") || move.equals("O-O-O")) {
+                // no code to test the legality of the move yet
+                int nYaxis = wb.equals("w") ? 1: 8;
 
-            // x and y are the destination, but what's the source? find the pawn
-            for (ySource = 0; ySource < 8; ySource++) {
-                if (currentBoard[ySource][xDest].contains(wb + "p")) {
-                    break;
+                if (move.equals("O-O")) {
+                    // king to g1 or g8
+                    // rook to f1 or f8
+                    currentBoard[nYaxis - 1][6] = currentBoard[nYaxis - 1][4];
+                    currentBoard[nYaxis - 1][4] = "";
+
+                    currentBoard[nYaxis - 1][5] = currentBoard[nYaxis - 1][7];
+                    currentBoard[nYaxis - 1][7] = "";
+                } else {
+                    // king to c1 or c8
+                    // rook to d1 or d8
+                    currentBoard[nYaxis - 1][2] = currentBoard[nYaxis - 1][4];
+                    currentBoard[nYaxis - 1][4] = "";
+
+                    currentBoard[nYaxis - 1][3] = currentBoard[nYaxis - 1][0];
+                    currentBoard[nYaxis - 1][0] = "";
+                }
+            } else {
+                xDest = xAxis.indexOf(xDestination);
+                yDest = yAxis.indexOf(yDestination);
+
+                // find pawn that is going to xDest, yDest
+                try {
+                    int[] location = findPiece(wb, "P", xDest, yDest, bCapture, currentBoard);
+
+                    // so the new board doesn't have a pawn at xDest, ySource
+                    // but does have a pawn at xDest, yDest
+                    currentBoard[yDest][xDest] = currentBoard[location[1]][location[0]];
+                    currentBoard[location[1]][location[0]] = "";
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
             }
-
-            // so the new board doesn't have a pawn at xDest, ySource
-            // but does have a pawn at xDest, yDest
-            currentBoard[yDest][xDest] = currentBoard[ySource][xDest];
-            currentBoard[ySource][xDest] = "";
         } else {
-
             try {
                 xDest = xAxis.indexOf(intersect(xAxis, move));
                 yDest = yAxis.indexOf(intersect(yAxis, move));
-                boolean bFound = false;
 
-                // in the array the y is the rows, the x is the columns
-                for (ySource = 0; ySource < 8; ySource++) {
-                    for (xSource = 0; xSource < 8; xSource++) {
-                        String strPiece = currentBoard[ySource][xSource];
-
-                        if (strPiece == null)
-                            continue;
-
-                        Piece other = new Piece(xOther, xSource, ySource, xDest, yDest);
-                        bFound = strPiece.equals(wb + xOther.toLowerCase()) && other.isLegal();
-
-                        if (bFound)
-                            break;
-                    }
-
-                    if (bFound)
-                        break;
-                }
+                int[] location = findPiece(hFileRank, wb, xOther, xDest, yDest, bCapture, currentBoard);
 
                 // so the piece is at xSource, ySource
                 // and must move to xDest, yDest
-                currentBoard[yDest][xDest] = currentBoard[ySource][xSource];
-                currentBoard[ySource][xSource] = "";
+                currentBoard[yDest][xDest] = currentBoard[location[1]][location[0]];
+                currentBoard[location[1]][location[0]] = "";
             } catch (Exception ex) {
-                System.out.println(ex.getMessage());
+                ex.printStackTrace();
             }
-
         }
 
         return currentBoard;
     }
 
+    private static int[] findPiece(String wb, String sType, int x, int y, boolean bCapture, String[][] board) throws Exception {
+        int xSource = 0;
+        int ySource = 0;
+        boolean bFound = false;
+
+        try {
+            // x and y are the destination, but what's the source? find the pawn
+            outerloop:
+            for (ySource = 0; ySource < 8; ySource++) {
+                for (xSource = 0; xSource < 8; xSource++) {
+                    String strPiece = board[ySource][xSource];
+
+                    if (strPiece == null)
+                        continue;
+
+                    Piece move = new Piece(sType, xSource, ySource, x, y);
+                    move.setbDoesCapture(bCapture);
+                    move.setColor(wb);
+                    move.setBoard(board);
+
+                    bFound = strPiece.equals(wb + sType.toLowerCase()) && move.isLegal();
+
+                    if (bFound)
+                        break outerloop;
+                }
+            }
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+        }
+        return new int[] { xSource, ySource };
+    }
+
+    private static int[] findPiece(String hRank, String wb, String sType, int x, int y, boolean bCapture, String[][] board) throws Exception {
+        int xSource = xAxis.indexOf(hRank);
+        int ySource = 0;
+        boolean bFound = false;
+
+        if (hRank.equals("")) {
+            return findPiece(wb, sType, x, y, bCapture, board);
+        }
+
+        try {
+            // x and y are the destination, but what's the source? find the piece
+            // this overload is for a spec'ed hRank, so we already know the xSource
+            for (ySource = 0; ySource < 8; ySource++) {
+                String strPiece = board[ySource][xSource];
+
+                if (strPiece == null)
+                    continue;
+
+                Piece move = new Piece(sType, xSource, ySource, x, y);
+                move.setbDoesCapture(bCapture);
+                move.setColor(wb);
+                move.setBoard(board);
+
+                bFound = strPiece.equals(wb + sType.toLowerCase()) && move.isLegal();
+
+                if (bFound)
+                    break;
+            }
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+        }
+
+        return new int[] { xSource, ySource };
+    }
     public static String intersect(String one, String two) {
         String strResult = "";
         String[] oneAry = one.split("");

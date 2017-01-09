@@ -11,8 +11,33 @@
     tools:showIn="@layout/activity_main">
 
     <bldg5.jj.pgnhelper.CB
+        android:id="@+id/boardShowing"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        custom:pgn="test"/>
+        custom:pgn="test"
+        custom:moveNumber="0"/>
+    <!--
+        <view class="bldg5.jj.pgnhelper.CB"
+            android:id="@+id/boardShowing"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            custom:pgn="test"
+            custom:moveNumber="2"></view>-->
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/boardShowing">
+
+        <Button
+            android:text="Prev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnPrev" />
+        <Button
+            android:text="Next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnNext" />
+    </LinearLayout>
 </RelativeLayout>

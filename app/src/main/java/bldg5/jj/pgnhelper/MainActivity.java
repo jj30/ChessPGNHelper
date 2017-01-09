@@ -5,8 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+
+import org.json.JSONException;
 
 public class MainActivity extends AppCompatActivity {
+    private int nMoveNumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -14,10 +19,30 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Button btnNext = (Button) findViewById(R.id.btnNext);
+        Button btnPrev = (Button) findViewById(R.id.btnPrev);
 
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CB boardShowing = (CB) findViewById(R.id.boardShowing);
+                nMoveNumber = boardShowing.getMoveNumber() + 1;
 
+                boardShowing.setMoveNumber(nMoveNumber);
+                boardShowing.halfMove();
+            }
+        });
 
+        btnPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CB boardShowing = (CB) findViewById(R.id.boardShowing);
+                nMoveNumber = boardShowing.getMoveNumber() - 1;
 
+                boardShowing.setMoveNumber(nMoveNumber);
+                boardShowing.halfMove();
+            }
+        });
     }
 
     @Override

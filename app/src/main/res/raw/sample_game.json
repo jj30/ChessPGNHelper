@@ -3,149 +3,152 @@
     "N": "29193"
   },
   "black": {
-    "S": "Benko, Pal C"
+    "S": "Fischer, Robert James"
   },
   "date": {
-    "S": "1968.??.??"
+    "S": "1956.??.??"
   },
   "ECO": {
-    "S": "A32"
+    "S": "D92"
   },
   "event": {
-    "S": "Lugano ol (Men)"
+    "S": "New York Rosenwald"
   },
   "file": {
-    "S": "Benko.pgn"
+    "S": "Fischer.pgn"
   },
   "PGN": {
     "M": {
       "1": {
-        "S": "d4 Nf6"
+        "S": "Nf3 Nf6"
       },
       "2": {
-        "S": "Nf3 c5"
+        "S": "c4 g6"
       },
       "3": {
-        "S": "c4 cxd4"
+        "S": "Nc3 Bg7"
       },
       "4": {
-        "S": "Nxd4 e6"
+        "S": "d4 O-O"
       },
       "5": {
-        "S": "e3 Nc6"
+        "S": "Bf4 d5"
       },
       "6": {
-        "S": "Be2 Bb4+"
+        "S": "Qb3 dxc4"
       },
       "7": {
-        "S": "Bd2 Be7"
+        "S": "Qxc4 c6"
       },
       "8": {
-        "S": "Nc3 O-O"
+        "S": "e4 Nbd7"
       },
       "9": {
-        "S": "O-O b6"
+        "S": "Rd1 Nb6"
       },
       "10": {
-        "S": "Nxc6 dxc6"
+        "S": "Qc5 Bg4"
       },
       "11": {
-        "S": "Bf3 Ba6"
+        "S": "Bg5 Na4"
       },
       "12": {
-        "S": "b3 Rc8"
+        "S": "Qa3 Nxc3"
       },
       "13": {
-        "S": "a4 Nd7"
+        "S": "bxc3 Nxe4"
       },
       "14": {
-        "S": "Ne4 f5"
+        "S": "Bxe7 Qb6"
       },
       "15": {
-        "S": "Ng3 Bf6"
+        "S": "Bc4 Nxc3"
       },
       "16": {
-        "S": "Rc1 Ne5"
+        "S": "Bc5 Rfe8+"
       },
       "17": {
-        "S": "Bc3 g6"
+        "S": "Kf1 Be6"
       },
       "18": {
-        "S": "Bxe5 Bxe5"
+        "S": "Bxb6 Bxc4+"
       },
       "19": {
-        "S": "Qxd8 Rfxd8"
+        "S": "Kg1 Ne2+"
       },
       "20": {
-        "S": "Rfd1 c5"
+        "S": "Kf1 Nxd4+"
       },
       "21": {
-        "S": "Rxd8+ Rxd8"
+        "S": "Kg1 Ne2+"
       },
       "22": {
-        "S": "Rd1 Rxd1+"
+        "S": "Kf1 Nc3+"
       },
       "23": {
-        "S": "Bxd1 g5"
+        "S": "Kg1 axb6"
       },
       "24": {
-        "S": "Bf3 Kf7"
+        "S": "Qb4 Ra4"
       },
       "25": {
-        "S": "Kf1 Bc8"
+        "S": "Qxb6 Nxd1"
       },
       "26": {
-        "S": "Ke1 Bd7"
+        "S": "h3 Rxa2"
       },
       "27": {
-        "S": "Bb7 Ke7"
+        "S": "Kh2 Nxf2"
       },
       "28": {
-        "S": "Nf1 Be8"
+        "S": "Re1 Rxe1"
       },
       "29": {
-        "S": "g3 Bg6"
+        "S": "Qd8+ Bf8"
       },
       "30": {
-        "S": "f4 Bc3+"
+        "S": "Nxe1 Bd5"
       },
       "31": {
-        "S": "Ke2 h6"
+        "S": "Nf3 Ne4"
       },
       "32": {
-        "S": "Kd3 Bf6"
+        "S": "Qb8 b5"
       },
       "33": {
-        "S": "Nd2 e5"
+        "S": "h4 h5"
       },
       "34": {
-        "S": "Nb1 exf4"
+        "S": "Ne5 Kg7"
       },
       "35": {
-        "S": "exf4 Bd4"
+        "S": "Kg1 Bc5+"
       },
       "36": {
-        "S": "Ke2 Bh5+"
+        "S": "Kf1 Ng3+"
       },
       "37": {
-        "S": "Bf3 g4"
+        "S": "Ke1 Bb4+"
       },
       "38": {
-        "S": "Bb7 Be8"
+        "S": "Kd1 Bb3+"
       },
       "39": {
-        "S": "Na3 h5"
+        "S": "Kc1 Ne2+"
       },
       "40": {
-        "S": "Nb5 Bg1"
+        "S": "Kb1 Nc3+"
+      },
+      "41": {
+        "S": "Kc1 Rc2+"
       }
     }
   },
   "player": {
-    "S": "Prameshuber, Aleksander"
+    "S": "Byrne, Donald"
   },
   "result": {
-    "S": "1-0"
+    "S": "0-1"
   },
   "round": {
     "S": "?"
