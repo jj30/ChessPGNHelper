@@ -48,7 +48,7 @@ public class Snapshot {
         mapStringsToResources.put("bp", R.drawable.bp);
     }
 
-    public static String[][] InitBoard() {
+    public static String[][] initBoard() {
         String[][] board = new String[8][8];
 
         // pieces at the start of the game
@@ -60,8 +60,14 @@ public class Snapshot {
         return board;
     }
 
+    public static String[][] toTheEnd(JSONObject jsonPGN) throws JSONException {
+        int nLength = jsonPGN.length() * 2;
+        // the UI moves are half-moves
+        return PGN2Board(nLength, jsonPGN);
+    }
+
     public static String[][] PGN2Board(int toMoveNumber, JSONObject jsonPGN) throws JSONException {
-        String[][] board = InitBoard();
+        String[][] board = initBoard();
         int nLoop = (int) (toMoveNumber + 1) / 2;
 
         for (int i = 1; i <= nLoop; i++) {
@@ -83,9 +89,31 @@ public class Snapshot {
         return board;
     }
 
+    public static String[][] oneMove(int toUIMoveNumber, JSONObject jsonPGN, String[][] board) throws JSONException {
+        int nPGNMoveNumber = (int) (toUIMoveNumber + 1) / 2;
+
+        JSONObject move = (JSONObject) jsonPGN.get(String.valueOf(nPGNMoveNumber));
+        String movePGN = move.get("S").toString();
+
+        String white = movePGN.split(" ")[0];
+        String black = movePGN.split(" ")[1];
+
+        // which half of the PGN move is this? the 1st or the 2nd half?
+        if (toUIMoveNumber % 2 == 0)
+            board = transform("b", black, board);
+        else
+            board = transform("w", white, board);
+
+        return board;
+    }
+
     public static String[][] transform(String wb, String move, String[][] currentBoard) {
         boolean bCapture = move.contains("x");
         String destOnly  = bCapture ? move.split("x")[1] : move;
+
+        if (move.equals("Rfe8+")) {
+            Log.i("test", "test");
+        }
         String xDestination = intersect(xAxis, destOnly);
         String yDestination = intersect(yAxis, destOnly);
         String xOther = intersect(nonPawns, move);
@@ -94,10 +122,9 @@ public class Snapshot {
         String hFileRank = move.replace(xOther, "")
                 .replace(xDestination, "")
                 .replace(yDestination, "")
-                .replace("x", "");
+                .replace("x", "")
+                .replace("+", "");
 
-        int xSource = 0;
-        int ySource = 0;
         int xDest = 0;
         int yDest = 0;
 
@@ -232,15 +259,17 @@ public class Snapshot {
         String[] oneAry = one.split("");
         String[] twoAry = two.split("");
 
-        int i = 1;
-        int j = 1;
+        int i = 0;
+        int j = 0;
 
-        // only one character is expected
-        for (i = 1; i < oneAry.length; i++) {
-            for (j = 1; j < twoAry.length; j++ ) {
+        // last character is the destination
+        // 2nd to last is the source (horizontal rank)
+        OL:
+        for (j = twoAry.length - 1; j > 0; j--) {
+            for (i = oneAry.length - 1; i > 0; i--) {
                 if (oneAry[i].equals(twoAry[j])) {
                     strResult = oneAry[i];
-                    break;
+                    break OL;
                 }
             }
         }

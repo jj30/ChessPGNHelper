@@ -16,19 +16,16 @@
         android:layout_width="match_parent"
         custom:pgn="test"
         custom:moveNumber="0"/>
-    <!--
-        <view class="bldg5.jj.pgnhelper.CB"
-            android:id="@+id/boardShowing"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            custom:pgn="test"
-            custom:moveNumber="2"></view>-->
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/boardShowing">
 
+        <Button
+            android:text="First"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnFirst" />
         <Button
             android:text="Prev"
             android:layout_width="wrap_content"
@@ -39,5 +36,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnNext" />
+        <Button
+            android:text="Last"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnLast" />
     </LinearLayout>
 </RelativeLayout>

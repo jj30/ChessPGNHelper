@@ -8,8 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import org.json.JSONException;
-
 public class MainActivity extends AppCompatActivity {
     private int nMoveNumber;
     @Override
@@ -19,8 +17,10 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button btnNext = (Button) findViewById(R.id.btnNext);
+        Button btnFirst = (Button) findViewById(R.id.btnFirst);
         Button btnPrev = (Button) findViewById(R.id.btnPrev);
+        Button btnNext = (Button) findViewById(R.id.btnNext);
+        Button btnLast = (Button) findViewById(R.id.btnLast);
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,7 +40,26 @@ public class MainActivity extends AppCompatActivity {
                 nMoveNumber = boardShowing.getMoveNumber() - 1;
 
                 boardShowing.setMoveNumber(nMoveNumber);
-                boardShowing.halfMove();
+                boardShowing.halfMoveBackwards();
+            }
+        });
+
+        btnFirst.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CB boardShowing = (CB) findViewById(R.id.boardShowing);
+                nMoveNumber = 0;
+
+                boardShowing.setMoveNumber(nMoveNumber);
+                boardShowing.initBoard();
+            }
+        });
+
+        btnLast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CB boardShowing = (CB) findViewById(R.id.boardShowing);
+                boardShowing.toTheEnd();
             }
         });
     }

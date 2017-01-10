@@ -109,9 +109,14 @@ public class Piece {
             // knight never moves to the same color
             bResult = !Board.squareColor(this.x, this.y).equals(Board.squareColor(this.xDestination, this.yDestination));
 
-            // slope is 2 or .5
-            bCorrectSlope = (Math.abs((yDestination - y) / (xDestination - x)) == 2) ||
-                    (Math.abs(((yDestination - y) * 1.0) / (xDestination - x)) == 0.5d);
+            try {
+                // slope is 2 or .5
+                bCorrectSlope = (Math.abs((yDestination - y) / (xDestination - x)) == 2) ||
+                        (Math.abs(((yDestination - y) * 1.0) / (xDestination - x)) == 0.5d);
+            } catch (ArithmeticException ex) {
+                // Divide by zero error.
+                bCorrectSlope = false;
+            }
 
             // max displacement in either horizontal or vertical is 3.
             bCorrectDisplacement = Math.abs(yDestination - y) <= 3 && Math.abs(xDestination - x) <= 3;

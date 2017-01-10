@@ -2,14 +2,14 @@ package bldg5.jj.pgnhelper;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TableLayout;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.IOException;
 
 import bldg5.jj.pgnhelper.common.Utils;
@@ -20,6 +20,7 @@ public class CB
     private String pgn;
     private int nMoveNumber;
     private JSONObject pgnJSON;
+    private String[][] currentBoard = Snapshot.initBoard();
 
     public CB(Context context) {
         super(context);
@@ -32,6 +33,14 @@ public class CB
 
     public void setMoveNumber(int n) {
         nMoveNumber = n;
+    }
+
+    public String[][] getCurrentBoard() {
+        return this.currentBoard;
+    }
+
+    public void setCurrentBoard(String[][] board) {
+        this.currentBoard = board;
     }
 
     public CB(Context context, AttributeSet attrs) {
@@ -65,9 +74,36 @@ public class CB
         }
     }
 
+    public void initBoard() {
+        Drawboard(Snapshot.initBoard());
+    }
+
+    public void toTheEnd() {
+        try {
+            Drawboard(Snapshot.toTheEnd(pgnJSON));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void halfMove() {
         try {
+            // String[][] board = Snapshot.PGN2Board(nMoveNumber, pgnJSON);
+
+            String[][] board = currentBoard;
+            board = Snapshot.oneMove(nMoveNumber, pgnJSON, currentBoard);
+
+            currentBoard = board;
+            Drawboard(board);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void halfMoveBackwards() {
+        try {
             String[][] board = Snapshot.PGN2Board(nMoveNumber, pgnJSON);
+            currentBoard = board;
             Drawboard(board);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -94,23 +130,4 @@ public class CB
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.board, this);
     }
-
-    /*
-    @Override
-    protected void dispatchDraw(Canvas canvas) {
-        super.dispatchDraw(canvas);
-    }
-    @Override
-    public void invalidate() {
-        super.invalidate();
-    }
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        super.onLayout(changed, l, t, r, b);
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }*/
 }
