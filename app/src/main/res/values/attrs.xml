@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ChessBoard">
-        <attr name="pgn" format="string" />
         <attr name="moveNumber" format="integer" />
     </declare-styleable>
 </resources>

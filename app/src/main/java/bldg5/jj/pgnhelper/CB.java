@@ -47,12 +47,12 @@ public class CB
         super(context, attrs);
         initializeViews(context);
 
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ChessBoard);
+        // TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ChessBoard);
 
         try
         {
-            String test = typedArray.getString(R.styleable.ChessBoard_pgn);
-            setMoveNumber(typedArray.getInteger(R.styleable.ChessBoard_moveNumber, 0));
+            /* String test = typedArray.getString(R.styleable.ChessBoard_pgn);
+            setMoveNumber(typedArray.getInteger(R.styleable.ChessBoard_moveNumber, 0));*/
 
             String strSampleJSON = Utils.getJSONFromRaw(context, R.raw.sample_game);
 
@@ -70,7 +70,7 @@ public class CB
             e.printStackTrace();
         } finally {
             // for reuse
-            typedArray.recycle();
+            // typedArray.recycle();
         }
     }
 

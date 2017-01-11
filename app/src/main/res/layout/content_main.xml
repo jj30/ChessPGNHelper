@@ -10,36 +10,45 @@
     tools:context="bldg5.jj.pgnhelper.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <bldg5.jj.pgnhelper.CB
+    <!--<bldg5.jj.pgnhelper.CB
         android:id="@+id/boardShowing"
         android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        custom:pgn="test"
-        custom:moveNumber="0"/>
+        android:layout_width="match_parent" />-->
+
+    <view class="bldg5.jj.pgnhelper.CB"
+        android:id="@+id/boardShowing"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"></view>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/boardShowing">
 
         <Button
-            android:text="First"
+            android:text="&lt;&lt;"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnFirst" />
         <Button
-            android:text="Prev"
+            android:text="&lt;"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnPrev" />
         <Button
-            android:text="Next"
+            android:text="&gt;"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnNext" />
         <Button
-            android:text="Last"
+            android:text="&gt;&gt;"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/btnLast" />
+        <Button
+            android:text="x"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnSwitch" />
     </LinearLayout>
 </RelativeLayout>

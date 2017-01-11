@@ -97,10 +97,12 @@ public class Piece {
         boolean bResult = false;
         boolean bCorrectSlope = false;
         boolean bCorrectDisplacement = false;
+        boolean bClearPath = false;
 
         if (this.type.equals("R")) {
             // slope is infinity or 0
-            bResult = xDestination == x || yDestination == y;
+            bClearPath = checkPath(x, y, xDestination, yDestination);
+            bResult = (xDestination == x || yDestination == y) && bClearPath;
 
             return bResult;
         }
@@ -145,9 +147,13 @@ public class Piece {
             Piece bishop = new Piece("B");
             Piece rook = new Piece("R");
 
+            bishop.setBoard(this.board);
+            bishop.setbDoesCapture(this.bDoesCapture);
             bishop.setLocation(this.x, this.y);
             bishop.setDestination(this.xDestination, this.yDestination);
 
+            rook.setBoard(this.board);
+            rook.setbDoesCapture(this.bDoesCapture);
             rook.setLocation(this.x, this.y);
             rook.setDestination(this.xDestination, this.yDestination);
 
@@ -185,5 +191,40 @@ public class Piece {
         }
 
         return  bResult;
+    }
+
+    private boolean checkPath(int xF, int yF, int x, int y) {
+        // checking the path is bidirectional
+        String strOriginalPiece = board[yF][xF];
+        boolean bClear = true;
+        boolean bDone = false;
+        int xFro = (xF < x) ? xF : x;
+        int xTo = (xF < x) ? x : xF;
+        int yFro = (yF < y) ? yF : y;
+        int yTo = (yF < y) ? y : yF;
+
+        while (bClear && !bDone) {
+            if (yFro != yTo)
+                yFro++;
+
+            if (xFro != xTo)
+                xFro++;
+
+            bDone = yFro == yTo && xFro == xTo;
+
+            if (bDone) {
+                if (this.bDoesCapture) {
+                    return this.bDoesCapture;
+                }
+                else {
+                    // in the bidirectional sense, sometimes the "last" piece is the original piece
+                    return board[yFro][xFro].equals("") || board[yFro][xFro].equals(strOriginalPiece);
+                }
+            } else {
+                bClear = bClear && board[yFro][xFro].equals("");
+            }
+        }
+
+        return bClear;
     }
 }

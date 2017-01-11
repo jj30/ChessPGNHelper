@@ -54,6 +54,10 @@ public class Snapshot {
         // pieces at the start of the game
         board[0] = new String[] { "wr", "wn", "wb", "wq", "wk", "wb", "wn", "wr" };
         board[1] = new String[] { "wp", "wp", "wp", "wp", "wp", "wp", "wp", "wp" };
+        board[2] = new String[] { "", "", "", "", "", "", "", "" };
+        board[3] = new String[] { "", "", "", "", "", "", "", "" };
+        board[4] = new String[] { "", "", "", "", "", "", "", "" };
+        board[5] = new String[] { "", "", "", "", "", "", "", "" };
         board[6] = new String[] { "bp", "bp", "bp", "bp", "bp", "bp", "bp", "bp" };
         board[7] = new String[] { "br", "bn", "bb", "bq", "bk", "bb", "bn", "br" };
 
@@ -111,9 +115,6 @@ public class Snapshot {
         boolean bCapture = move.contains("x");
         String destOnly  = bCapture ? move.split("x")[1] : move;
 
-        if (move.equals("Rfe8+")) {
-            Log.i("test", "test");
-        }
         String xDestination = intersect(xAxis, destOnly);
         String yDestination = intersect(yAxis, destOnly);
         String xOther = intersect(nonPawns, move);
@@ -174,10 +175,14 @@ public class Snapshot {
 
                 int[] location = findPiece(hFileRank, wb, xOther, xDest, yDest, bCapture, currentBoard);
 
-                // so the piece is at xSource, ySource
-                // and must move to xDest, yDest
-                currentBoard[yDest][xDest] = currentBoard[location[1]][location[0]];
-                currentBoard[location[1]][location[0]] = "";
+                try {
+                    // so the piece is at xSource, ySource
+                    // and must move to xDest, yDest
+                    currentBoard[yDest][xDest] = currentBoard[location[1]][location[0]];
+                    currentBoard[location[1]][location[0]] = "";
+                } catch (ArrayIndexOutOfBoundsException ex) {
+                    Log.i("PGNHelper", "Did not find piece.");
+                }
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -198,7 +203,7 @@ public class Snapshot {
                 for (xSource = 0; xSource < 8; xSource++) {
                     String strPiece = board[ySource][xSource];
 
-                    if (strPiece == null)
+                    if (strPiece.equals(""))
                         continue;
 
                     Piece move = new Piece(sType, xSource, ySource, x, y);
@@ -234,7 +239,7 @@ public class Snapshot {
             for (ySource = 0; ySource < 8; ySource++) {
                 String strPiece = board[ySource][xSource];
 
-                if (strPiece == null)
+                if (strPiece.equals(""))
                     continue;
 
                 Piece move = new Piece(sType, xSource, ySource, x, y);
