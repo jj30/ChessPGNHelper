@@ -1,15 +1,13 @@
 package bldg5.jj.pgnhelper;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TableLayout;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 
 import bldg5.jj.pgnhelper.common.Utils;
@@ -21,6 +19,7 @@ public class CB
     private int nMoveNumber;
     private JSONObject pgnJSON;
     private String[][] currentBoard = Snapshot.initBoard();
+    private boolean bIsFlipped = false;
 
     public CB(Context context) {
         super(context);
@@ -35,13 +34,41 @@ public class CB
         nMoveNumber = n;
     }
 
-    public String[][] getCurrentBoard() {
+    public String getMove() {
+        int nPGNMoveNumber = (int) (nMoveNumber + 1) / 2;
+        String strReturn = "";
+        String strWhite = "";
+        String strBlack = "";
+
+        JSONObject move = null;
+        try {
+            move = (JSONObject) pgnJSON.get(String.valueOf(nPGNMoveNumber));
+            String movePGN = move.get("S").toString();
+            strWhite = movePGN.toString().split(" ")[1];
+            strBlack = movePGN.toString().split(" ")[0];
+
+            if (nMoveNumber % 2 == 0)
+                strReturn = strWhite;
+            else
+                strReturn = strBlack;
+        } catch (JSONException | ArrayIndexOutOfBoundsException e) {
+            strReturn = strWhite;
+            e.printStackTrace();
+            Log.i("PGNHelper", "Game ends on white move.");
+        }
+
+        return strReturn;
+    }
+
+
+
+    /*public String[][] getCurrentBoard() {
         return this.currentBoard;
     }
 
     public void setCurrentBoard(String[][] board) {
         this.currentBoard = board;
-    }
+    }*/
 
     public CB(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -54,7 +81,7 @@ public class CB
             /* String test = typedArray.getString(R.styleable.ChessBoard_pgn);
             setMoveNumber(typedArray.getInteger(R.styleable.ChessBoard_moveNumber, 0));*/
 
-            String strSampleJSON = Utils.getJSONFromRaw(context, R.raw.sample_game);
+            String strSampleJSON = Utils.getJSONFromRaw(context, R.raw.sample_game3);
 
             JSONObject json = new JSONObject(strSampleJSON);
             JSONObject jsonPGNS =  (JSONObject) json.get("PGN");
@@ -86,6 +113,11 @@ public class CB
         }
     }
 
+    public void switchSides() {
+        bIsFlipped = !bIsFlipped;
+        Drawboard(this.currentBoard);
+    }
+
     public void halfMove() {
         try {
             // String[][] board = Snapshot.PGN2Board(nMoveNumber, pgnJSON);
@@ -115,7 +147,10 @@ public class CB
             for (int j = 0; j < 8; j++) {
                 String strPiece = thisBoard[i][j];
                 strPiece = (strPiece == null) ? "": strPiece;
-                ImageView imageView = (ImageView) findViewById(Snapshot.boardRIDs[i][j]);
+
+                // if the view is flipped, flip it
+                int newY = bIsFlipped ? 7 - i : i;
+                ImageView imageView = (ImageView) findViewById(Snapshot.boardRIDs[newY][j]);
 
                 if (!strPiece.equals("")){
                     imageView.setImageResource(Snapshot.mapStringsToResources.get(thisBoard[i][j]));

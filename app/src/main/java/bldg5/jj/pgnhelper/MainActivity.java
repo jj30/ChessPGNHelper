@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     private int nMoveNumber;
@@ -21,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
         Button btnPrev = (Button) findViewById(R.id.btnPrev);
         Button btnNext = (Button) findViewById(R.id.btnNext);
         Button btnLast = (Button) findViewById(R.id.btnLast);
+        Button btnSwitch = (Button) findViewById(R.id.btnSwitch);
+        final TextView txtMove = (TextView) findViewById(R.id.txtCurrentMove);
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -29,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
                 nMoveNumber = boardShowing.getMoveNumber() + 1;
 
                 boardShowing.setMoveNumber(nMoveNumber);
+
+                // the pgn is set on instancing of CB so set the text view
+                // but this line has to come after the move number is set.
+                txtMove.setText(boardShowing.getMove());
+
                 boardShowing.halfMove();
             }
         });
@@ -40,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
                 nMoveNumber = boardShowing.getMoveNumber() - 1;
 
                 boardShowing.setMoveNumber(nMoveNumber);
+
+                // the pgn is set on instancing of CB so set the text view
+                // but this line has to come after the move number is set.
+                txtMove.setText(boardShowing.getMove());
+
                 boardShowing.halfMoveBackwards();
             }
         });
@@ -60,6 +73,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 CB boardShowing = (CB) findViewById(R.id.boardShowing);
                 boardShowing.toTheEnd();
+            }
+        });
+
+        btnSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CB boardShowing = (CB) findViewById(R.id.boardShowing);
+                boardShowing.switchSides();
             }
         });
     }

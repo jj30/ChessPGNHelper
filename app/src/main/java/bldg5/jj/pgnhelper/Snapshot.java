@@ -78,16 +78,23 @@ public class Snapshot {
             JSONObject move = (JSONObject) jsonPGN.get(String.valueOf(i));
             String movePGN = move.get("S").toString();
             String white = movePGN.split(" ")[0];
-            String black = movePGN.split(" ")[1];
+            String black = "";
 
-            board = transform("w", white, board);
+            try {
+                black = movePGN.split(" ")[1];
+            }
+            catch(ArrayIndexOutOfBoundsException ex) {
+                Log.i("PGNHelper", "Game ends on white move.");
+            } finally {
+                board = transform("w", white, board);
 
-            if (i < nLoop)
-                board = transform("b", black, board);
-            else
-                // i == nLoop, last iteration
-                if (toMoveNumber % 2 == 0)
+                if (i < nLoop)
                     board = transform("b", black, board);
+                else
+                    // i == nLoop, last iteration
+                    if (toMoveNumber % 2 == 0)
+                        board = transform("b", black, board);
+            }
         }
 
         return board;
@@ -100,18 +107,31 @@ public class Snapshot {
         String movePGN = move.get("S").toString();
 
         String white = movePGN.split(" ")[0];
-        String black = movePGN.split(" ")[1];
+        String black = "";
 
-        // which half of the PGN move is this? the 1st or the 2nd half?
-        if (toUIMoveNumber % 2 == 0)
-            board = transform("b", black, board);
-        else
-            board = transform("w", white, board);
+        try {
+            black = movePGN.split(" ")[1];
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            Log.i("PGNHelper", "Game ends on white move.");
+        } finally {
+            // which half of the PGN move is this? the 1st or the 2nd half?
+            if (toUIMoveNumber % 2 == 0)
+                board = transform("b", black, board);
+            else
+                board = transform("w", white, board);
+        }
 
         return board;
     }
 
     public static String[][] transform(String wb, String move, String[][] currentBoard) {
+        /// TODO
+        ///        promotion
+        /// en passsant
+        /// test queen-side castle
+        if (move.equals(""))
+            return currentBoard;
+
         boolean bCapture = move.contains("x");
         String destOnly  = bCapture ? move.split("x")[1] : move;
 
@@ -121,8 +141,7 @@ public class Snapshot {
 
         // some moves use this to disambiguate, eg, two horses can move to the same square.
         String hFileRank = move.replace(xOther, "")
-                .replace(xDestination, "")
-                .replace(yDestination, "")
+                .replace(xDestination + yDestination, "")
                 .replace("x", "")
                 .replace("+", "");
 
@@ -231,6 +250,13 @@ public class Snapshot {
 
         if (hRank.equals("")) {
             return findPiece(wb, sType, x, y, bCapture, board);
+        } else {
+            // is hRank really vRank?
+            try {
+                int vRank = Integer.parseInt(hRank);
+                return findPiece(vRank, wb, sType, x, y, bCapture, board);
+            }
+            catch( Exception e ) { }
         }
 
         try {
@@ -259,6 +285,39 @@ public class Snapshot {
 
         return new int[] { xSource, ySource };
     }
+
+    private static int[] findPiece(Integer vRank, String wb, String sType, int x, int y, boolean bCapture, String[][] board) throws Exception {
+        int xSource = 0;
+        int ySource = vRank - 1;
+        boolean bFound = false;
+
+        try {
+            // x and y are the destination, but what's the source? find the piece
+            // this overload is for a spec'ed vRank, so we already know the ySource
+            for (xSource = 0; xSource < 8; xSource++) {
+                String strPiece = board[ySource][xSource];
+
+                if (strPiece.equals(""))
+                    continue;
+
+                Piece move = new Piece(sType, xSource, ySource, x, y);
+                move.setbDoesCapture(bCapture);
+                move.setColor(wb);
+                move.setBoard(board);
+
+                bFound = strPiece.equals(wb + sType.toLowerCase()) && move.isLegal();
+
+                if (bFound)
+                    break;
+            }
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+        }
+
+        return new int[] { xSource, ySource };
+    }
+
     public static String intersect(String one, String two) {
         String strResult = "";
         String[] oneAry = one.split("");

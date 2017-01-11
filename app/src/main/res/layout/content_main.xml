@@ -20,34 +20,43 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"></view>
 
+
+    <TextView
+        android:id="@+id/txtCurrentMove"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="80dp"
+        android:gravity="bottom"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/boardShowing">
+        android:layout_alignBottom="@+id/boardShowing"
+        android:id="@+id/linearLayout">
 
         <Button
             android:text="&lt;&lt;"
-            android:layout_width="wrap_content"
+            android:layout_width="65dp"
             android:layout_height="wrap_content"
             android:id="@+id/btnFirst" />
         <Button
             android:text="&lt;"
-            android:layout_width="wrap_content"
+            android:layout_width="65dp"
             android:layout_height="wrap_content"
             android:id="@+id/btnPrev" />
         <Button
             android:text="&gt;"
-            android:layout_width="wrap_content"
+            android:layout_width="65dp"
             android:layout_height="wrap_content"
             android:id="@+id/btnNext" />
         <Button
             android:text="&gt;&gt;"
-            android:layout_width="wrap_content"
+            android:layout_width="65dp"
             android:layout_height="wrap_content"
             android:id="@+id/btnLast" />
         <Button
             android:text="x"
-            android:layout_width="wrap_content"
+            android:layout_width="65dp"
             android:layout_height="wrap_content"
             android:id="@+id/btnSwitch" />
     </LinearLayout>
