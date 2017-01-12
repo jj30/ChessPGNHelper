@@ -6,10 +6,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TableLayout;
+import android.widget.Toast;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
 
+import bldg5.jj.pgnhelper.common.OnSwipeTouchListener;
 import bldg5.jj.pgnhelper.common.Utils;
 
 public class CB
@@ -59,16 +62,6 @@ public class CB
 
         return strReturn;
     }
-
-
-
-    /*public String[][] getCurrentBoard() {
-        return this.currentBoard;
-    }
-
-    public void setCurrentBoard(String[][] board) {
-        this.currentBoard = board;
-    }*/
 
     public CB(Context context, AttributeSet attrs) {
         super(context, attrs);
