@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:background="@drawable/gradient_background"
+    tools:context="bldg5.jj.pgnhelper.HomeActivity">
+
+    <!--http://blog.vogella.com/2011/07/19/android-shapes/-->
+
+    <TextView
+        android:text="@string/welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="43dp"
+        android:id="@+id/textAboutPGNHelper"
+        android:textColor="#FFFFFF"
+        android:autoLink="email"
+        android:textSize="20dp"/>
+
+    <Button
+        android:text="OK"
+        android:textColor="#FFFFFF"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/gradient_background_btn"
+        android:id="@+id/btnOK" />
+</RelativeLayout>

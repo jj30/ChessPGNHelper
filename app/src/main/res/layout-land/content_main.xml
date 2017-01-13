@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/content_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="bldg5.jj.pgnhelper.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <!--<bldg5.jj.pgnhelper.CB
+        android:id="@+id/boardShowing"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />-->
+
+    <view class="bldg5.jj.pgnhelper.CB"
+        android:id="@+id/boardShowing"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"></view>
+
+
+    <TextView
+        android:id="@+id/txtCurrentMove"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="80dp"
+        android:gravity="bottom|right"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="right"
+        android:layout_alignParentRight="true"
+        android:id="@+id/linearLayout">
+
+        <Button
+            android:text="&lt;&lt;"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnFirst" />
+        <Button
+            android:text="&lt;"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnPrev" />
+        <Button
+            android:text="&gt;"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnNext" />
+        <Button
+            android:text="&gt;&gt;"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnLast" />
+        <Button
+            android:text="x"
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnSwitch" />
+    </LinearLayout>
+</RelativeLayout>
