@@ -147,7 +147,7 @@ public class CB
 
                 if (!strPiece.equals("")){
                     imageView.setImageResource(Snapshot.mapStringsToResources.get(thisBoard[i][j]));
-                } else {
+                 } else {
                     imageView.setImageDrawable(null);
                 }
             }
