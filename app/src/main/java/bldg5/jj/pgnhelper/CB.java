@@ -106,6 +106,15 @@ public class CB
         }
     }
 
+    public void toMoveNumber(int n) {
+        try {
+            currentBoard = Snapshot.PGN2Board(n, pgnJSON);
+            Drawboard(currentBoard);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void switchSides() {
         bIsFlipped = !bIsFlipped;
         Drawboard(this.currentBoard);

@@ -23,6 +23,8 @@ import bldg5.jj.pgnhelper.common.OnSwipeTouchListener;
 
 public class MainActivity extends AppCompatActivity {
     private int nMoveNumber;
+    private CB boardShowing;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         Button btnLast = (Button) findViewById(R.id.btnLast);
         Button btnSwitch = (Button) findViewById(R.id.btnSwitch);
         final TextView txtMove = (TextView) findViewById(R.id.txtCurrentMove);
-        final CB boardShowing = (CB) findViewById(R.id.boardShowing);
+        boardShowing = (CB) findViewById(R.id.boardShowing);
 
         setupDrawer();
 
@@ -138,53 +140,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState){
-        /* outState.putInt("nMoveNumber", nMoveNumber);
-
-        String[][] board = boardShowing.getCurrentBoard();
-
-        outState.putStringArray("board0", board[0]);
-        outState.putStringArray("board1", board[1]);
-        outState.putStringArray("board2", board[2]);
-        outState.putStringArray("board3", board[3]);
-        outState.putStringArray("board4", board[4]);
-        outState.putStringArray("board5", board[5]);
-        outState.putStringArray("board6", board[6]);
-        outState.putStringArray("board7", board[7]);*/
-
         super.onSaveInstanceState(outState);
+        outState.putInt("nMoveNumber", nMoveNumber); 
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedState) {
         super.onRestoreInstanceState(savedState);
+        nMoveNumber = savedState.getInt("nMoveNumber");
 
-        /* nMoveNumber = savedState.getInt("nMoveNumber");
-
-        // if (nMoveNumber > 0) {
-        boardShowing.setMoveNumber(nMoveNumber);
-        //    boardShowing.toThenMoveNumber();
-        //}
-        String[][] board = new String[][] {
-                { "", "", "", "", "", "", "", "" },
-                { "", "", "", "", "", "", "", "" },
-                { "", "", "", "", "", "", "", "" },
-                { "", "", "", "", "", "", "", "" },
-                { "", "", "", "", "", "", "", "" },
-                { "", "", "", "", "", "", "", "" },
-                { "", "", "", "", "", "", "", "" },
-                { "", "", "", "", "", "", "", "" }
-        };
-
-        board[0] = savedState.getStringArray("board0");
-        board[1] = savedState.getStringArray("board1");
-        board[2] = savedState.getStringArray("board2");
-        board[3] = savedState.getStringArray("board3");
-        board[4] = savedState.getStringArray("board4");
-        board[5] = savedState.getStringArray("board5");
-        board[6] = savedState.getStringArray("board6");
-        board[7] = savedState.getStringArray("board7");
-
-        boardShowing.setCurrentBoard(board);*/
+        if (nMoveNumber > 0) {
+            boardShowing.setMoveNumber(nMoveNumber);
+            boardShowing.toMoveNumber(nMoveNumber);
+        }
     }
 
 
