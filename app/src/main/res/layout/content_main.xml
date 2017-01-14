@@ -28,7 +28,8 @@
         android:id="@+id/txtCurrentMove"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="10dp"
         android:gravity="bottom"/>
 
     <LinearLayout

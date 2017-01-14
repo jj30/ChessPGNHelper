@@ -1,160 +1,142 @@
-// http://www.chessgames.com/perl/chessgame?gid=1008361
+// http://www.chessgames.com/perl/chessgame?gid=1008361{
 {
-  "_id": {
-    "N": "29193"
-  },
-  "black": {
-    "S": "Fischer, Robert James"
-  },
-  "date": {
-    "S": "1956.??.??"
-  },
-  "ECO": {
-    "S": "D92"
-  },
-  "event": {
-    "S": "New York Rosenwald"
-  },
-  "file": {
-    "S": "Fischer.pgn"
-  },
+  "_id": "29193",
+  "black": "Fischer, Robert James",
+  "date": "1956.??.??",
+  "ECO": "D92",
+  "event": "New York Rosenwald",
   "PGN": {
-    "M": {
-      "1": {
-        "S": "Nf3 Nf6"
-      },
-      "2": {
-        "S": "c4 g6"
-      },
-      "3": {
-        "S": "Nc3 Bg7"
-      },
-      "4": {
-        "S": "d4 O-O"
-      },
-      "5": {
-        "S": "Bf4 d5"
-      },
-      "6": {
-        "S": "Qb3 dxc4"
-      },
-      "7": {
-        "S": "Qxc4 c6"
-      },
-      "8": {
-        "S": "e4 Nbd7"
-      },
-      "9": {
-        "S": "Rd1 Nb6"
-      },
-      "10": {
-        "S": "Qc5 Bg4"
-      },
-      "11": {
-        "S": "Bg5 Na4"
-      },
-      "12": {
-        "S": "Qa3 Nxc3"
-      },
-      "13": {
-        "S": "bxc3 Nxe4"
-      },
-      "14": {
-        "S": "Bxe7 Qb6"
-      },
-      "15": {
-        "S": "Bc4 Nxc3"
-      },
-      "16": {
-        "S": "Bc5 Rfe8+"
-      },
-      "17": {
-        "S": "Kf1 Be6"
-      },
-      "18": {
-        "S": "Bxb6 Bxc4+"
-      },
-      "19": {
-        "S": "Kg1 Ne2+"
-      },
-      "20": {
-        "S": "Kf1 Nxd4+"
-      },
-      "21": {
-        "S": "Kg1 Ne2+"
-      },
-      "22": {
-        "S": "Kf1 Nc3+"
-      },
-      "23": {
-        "S": "Kg1 axb6"
-      },
-      "24": {
-        "S": "Qb4 Ra4"
-      },
-      "25": {
-        "S": "Qxb6 Nxd1"
-      },
-      "26": {
-        "S": "h3 Rxa2"
-      },
-      "27": {
-        "S": "Kh2 Nxf2"
-      },
-      "28": {
-        "S": "Re1 Rxe1"
-      },
-      "29": {
-        "S": "Qd8+ Bf8"
-      },
-      "30": {
-        "S": "Nxe1 Bd5"
-      },
-      "31": {
-        "S": "Nf3 Ne4"
-      },
-      "32": {
-        "S": "Qb8 b5"
-      },
-      "33": {
-        "S": "h4 h5"
-      },
-      "34": {
-        "S": "Ne5 Kg7"
-      },
-      "35": {
-        "S": "Kg1 Bc5+"
-      },
-      "36": {
-        "S": "Kf1 Ng3+"
-      },
-      "37": {
-        "S": "Ke1 Bb4+"
-      },
-      "38": {
-        "S": "Kd1 Bb3+"
-      },
-      "39": {
-        "S": "Kc1 Ne2+"
-      },
-      "40": {
-        "S": "Kb1 Nc3+"
-      },
-      "41": {
-        "S": "Kc1 Rc2+"
-      }
+    "1": {
+      "S": "Nf3 Nf6"
+    },
+    "2": {
+      "S": "c4 g6"
+    },
+    "3": {
+      "S": "Nc3 Bg7"
+    },
+    "4": {
+      "S": "d4 O-O"
+    },
+    "5": {
+      "S": "Bf4 d5"
+    },
+    "6": {
+      "S": "Qb3 dxc4"
+    },
+    "7": {
+      "S": "Qxc4 c6"
+    },
+    "8": {
+      "S": "e4 Nbd7"
+    },
+    "9": {
+      "S": "Rd1 Nb6"
+    },
+    "10": {
+      "S": "Qc5 Bg4"
+    },
+    "11": {
+      "S": "Bg5 Na4",
+      "C": ["11. Be2 followed by 12 O-O would have been more prudent. The bishop move played allows a sudden crescendo of tactical points to be uncovered by Fischer. -- Wade"]
+    },
+    "12": {
+      "S": "Qa3 Nxc3",
+      "C": [
+        "On 12. Nxa4 Nxe4 and White faces considerable difficulties.",
+        "White's center, while the King remains trapped in the center."
+      ]
+    },
+    "13": {
+      "S": "bxc3 Nxe4"
+    },
+    "14": {
+      "S": "Bxe7 Qb6"
+    },
+    "15": {
+      "S": "Bc4 Nxc3"
+    },
+    "16": {
+      "S": "Bc5 Rfe8+"
+    },
+    "17": {
+      "S": "Kf1 Be6"
+    },
+    "18": {
+      "S": "Bxb6 Bxc4+"
+    },
+    "19": {
+      "S": "Kg1 Ne2+"
+    },
+    "20": {
+      "S": "Kf1 Nxd4+"
+    },
+    "21": {
+      "S": "Kg1 Ne2+"
+    },
+    "22": {
+      "S": "Kf1 Nc3+"
+    },
+    "23": {
+      "S": "Kg1 axb6"
+    },
+    "24": {
+      "S": "Qb4 Ra4"
+    },
+    "25": {
+      "S": "Qxb6 Nxd1"
+    },
+    "26": {
+      "S": "h3 Rxa2"
+    },
+    "27": {
+      "S": "Kh2 Nxf2"
+    },
+    "28": {
+      "S": "Re1 Rxe1"
+    },
+    "29": {
+      "S": "Qd8+ Bf8"
+    },
+    "30": {
+      "S": "Nxe1 Bd5"
+    },
+    "31": {
+      "S": "Nf3 Ne4"
+    },
+    "32": {
+      "S": "Qb8 b5"
+    },
+    "33": {
+      "S": "h4 h5"
+    },
+    "34": {
+      "S": "Ne5 Kg7"
+    },
+    "35": {
+      "S": "Kg1 Bc5+"
+    },
+    "36": {
+      "S": "Kf1 Ng3+"
+    },
+    "37": {
+      "S": "Ke1 Bb4+"
+    },
+    "38": {
+      "S": "Kd1 Bb3+"
+    },
+    "39": {
+      "S": "Kc1 Ne2+"
+    },
+    "40": {
+      "S": "Kb1 Nc3+"
+    },
+    "41": {
+      "S": "Kc1 Rc2+"
     }
   },
-  "player": {
-    "S": "Byrne, Donald"
-  },
-  "result": {
-    "S": "0-1"
-  },
-  "round": {
-    "S": "?"
-  },
-  "uniqueid": {
-    "N": "-4699505980566624809"
-  }
+  "player": "Byrne, Donald",
+  "result": "0-1",
+  "round": "?",
+  "uniqueid": "-4699505980566624809"
 }

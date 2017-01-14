@@ -19,6 +19,8 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
+import org.w3c.dom.Text;
+
 import bldg5.jj.pgnhelper.common.OnSwipeTouchListener;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,57 +40,58 @@ public class MainActivity extends AppCompatActivity {
         Button btnNext = (Button) findViewById(R.id.btnNext);
         Button btnLast = (Button) findViewById(R.id.btnLast);
         Button btnSwitch = (Button) findViewById(R.id.btnSwitch);
-        final TextView txtMove = (TextView) findViewById(R.id.txtCurrentMove);
         boardShowing = (CB) findViewById(R.id.boardShowing);
+        final TextView txtMove = (TextView) findViewById(R.id.txtCurrentMove);
+        // basic info on zeroth move, who's black, who's white, etc.
+        String strGameInfo = boardShowing.getInfo();
 
+        // if it's long, make the font smaller
+        // if it's really long trim it.
+        // under 170, 20 size
+        // between 170 and 300, 15 size
+        // higher than 300, 12 size
+        if (strGameInfo.length() > 170) {
+            if (strGameInfo.length() > 300) {
+                strGameInfo = strGameInfo.substring(0, 500);
+                txtMove.setTextSize(12.0f);
+            } else {
+                // strGameInfo = strGameInfo.substring(0, 170);
+                txtMove.setTextSize(15.0f);
+            }
+        } else {
+            txtMove.setTextSize(20.0f);
+        }
+
+        // set the text
+        txtMove.setText(strGameInfo);
+        // set up the navigation drawer.
         setupDrawer();
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nMoveNumber = boardShowing.getMoveNumber() + 1;
-                boardShowing.setMoveNumber(nMoveNumber);
-
-                // the pgn is set on instancing of CB so set the text view
-                // but this line has to come after the move number is set.
-                txtMove.setText(boardShowing.getMove());
-
-                boardShowing.halfMove();
+                next(txtMove);
             }
         });
 
         btnPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nMoveNumber = boardShowing.getMoveNumber() - 1;
-
-                boardShowing.setMoveNumber(nMoveNumber);
-
-                // the pgn is set on instancing of CB so set the text view
-                // but this line has to come after the move number is set.
-                txtMove.setText(boardShowing.getMove());
-
-                boardShowing.halfMoveBackwards();
+                prev(txtMove);
             }
         });
 
         btnFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nMoveNumber = 0;
-
-                boardShowing.setMoveNumber(nMoveNumber);
-                boardShowing.initBoard();
+                first();
             }
         });
 
         btnLast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // if the game ends on a white move, this will be higher than
-                // the max # of UI moves by one.
-                nMoveNumber = 2 * boardShowing.getNumMoves();
-                boardShowing.toTheEnd();
+                last();
             }
         });
 
@@ -103,54 +106,67 @@ public class MainActivity extends AppCompatActivity {
 
         // set the swipe listener
         boardShowing.setOnTouchListener(new OnSwipeTouchListener(context) {
-            public void onSwipeTop() {
-                // same as btnLast
-                boardShowing.toTheEnd();
-            }
+            public void onSwipeTop() { last(); }
 
-            public void onSwipeRight() {
-                // same as btnPrev
-                nMoveNumber = boardShowing.getMoveNumber() - 1;
-                boardShowing.setMoveNumber(nMoveNumber);
+            public void onSwipeRight() { prev(txtMove); }
 
-                // the pgn is set on instancing of CB so set the text view
-                // but this line has to come after the move number is set.
-                txtMove.setText(boardShowing.getMove());
-                boardShowing.halfMoveBackwards();
-            }
+            public void onSwipeLeft() { next(txtMove); }
 
-            public void onSwipeLeft() {
-                // same as btnNext
-                nMoveNumber = boardShowing.getMoveNumber() + 1;
-                boardShowing.setMoveNumber(nMoveNumber);
-
-                // the pgn is set on instancing of CB so set the text view
-                // but this line has to come after the move number is set.
-                txtMove.setText(boardShowing.getMove());
-                boardShowing.halfMove();
-            }
-
-            public void onSwipeBottom() {
-                // same as btnFirst
-                nMoveNumber = 0;
-
-                boardShowing.setMoveNumber(nMoveNumber);
-                boardShowing.initBoard();
-            }
+            public void onSwipeBottom() { first(); }
         });
     }
 
+    private void next(TextView txtMove) {
+        nMoveNumber = boardShowing.getMoveNumber() + 1;
+        boardShowing.setMoveNumber(nMoveNumber);
+
+        // the pgn is set on instancing of CB so set the text view
+        // but it has to be after the move number is set.
+        txtMove.setText(boardShowing.getMove());
+        boardShowing.halfMove();
+    }
+
+    private void prev(TextView txtMove) {
+        nMoveNumber = boardShowing.getMoveNumber() - 1;
+        boardShowing.setMoveNumber(nMoveNumber);
+
+        // the pgn is set on instancing of CB so set the text view
+        // but it has to be after the move number is set.
+        txtMove.setText(boardShowing.getMove());
+        boardShowing.halfMoveBackwards();
+    }
+
+    private void first() {
+        nMoveNumber = 0;
+        boardShowing.setMoveNumber(nMoveNumber);
+        boardShowing.initBoard();
+    }
+
+    private void last() {
+        // if the game ends on a white move, this will be higher than
+        // the max # of UI moves by one.
+        nMoveNumber = 2 * boardShowing.getNumMoves();
+        boardShowing.toTheEnd();
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
+
+        final TextView txtMove = (TextView) findViewById(R.id.txtCurrentMove);
+
         outState.putInt("nMoveNumber", nMoveNumber);
+        outState.putString("txtMove", txtMove.getText().toString());
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedState) {
         super.onRestoreInstanceState(savedState);
+        final TextView txtMove = (TextView) findViewById(R.id.txtCurrentMove);
         nMoveNumber = savedState.getInt("nMoveNumber");
+
+        String move = savedState.getString("txtMove");
+        txtMove.setText(move);
 
         if (nMoveNumber > 0) {
             boardShowing.setMoveNumber(nMoveNumber);
