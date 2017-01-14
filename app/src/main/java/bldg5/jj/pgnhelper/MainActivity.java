@@ -85,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
         btnLast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // if the game ends on a white move, this will be higher than
+                // the max # of UI moves by one.
+                nMoveNumber = 2 * boardShowing.getNumMoves();
                 boardShowing.toTheEnd();
             }
         });
@@ -141,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
-        outState.putInt("nMoveNumber", nMoveNumber); 
+        outState.putInt("nMoveNumber", nMoveNumber);
     }
 
     @Override

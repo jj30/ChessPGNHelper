@@ -23,6 +23,7 @@ public class CB
     private JSONObject pgnJSON;
     private String[][] currentBoard = Snapshot.initBoard();
     private boolean bIsFlipped = false;
+    private int numMovesInGame;
 
     public CB(Context context) {
         super(context);
@@ -35,6 +36,10 @@ public class CB
 
     public void setMoveNumber(int n) {
         nMoveNumber = n;
+    }
+
+    public Integer getNumMoves() {
+        return this.numMovesInGame;
     }
 
     public String getMove() {
@@ -57,7 +62,7 @@ public class CB
         } catch (JSONException | ArrayIndexOutOfBoundsException e) {
             strReturn = strWhite;
             e.printStackTrace();
-            Log.i("PGNHelper", "Game ends on white move.");
+            Log.i("PGNHelper", "This game ends on a white move, or user is back to 0th move (the beginning of the game).");
         }
 
         return strReturn;
@@ -80,7 +85,9 @@ public class CB
             JSONObject jsonPGNS =  (JSONObject) json.get("PGN");
             pgnJSON = (JSONObject) jsonPGNS.get("M");
 
-            // String[][] board = Snapshot.InitBoard();
+            // store the number of moves in this game
+            numMovesInGame = pgnJSON.length();
+
             String[][] board = Snapshot.PGN2Board(nMoveNumber, pgnJSON);
             Drawboard(board);
         }
@@ -95,12 +102,14 @@ public class CB
     }
 
     public void initBoard() {
-        Drawboard(Snapshot.initBoard());
+        currentBoard = Snapshot.initBoard();
+        Drawboard(currentBoard);
     }
 
     public void toTheEnd() {
         try {
-            Drawboard(Snapshot.toTheEnd(pgnJSON));
+            currentBoard = Snapshot.toTheEnd(pgnJSON);
+            Drawboard(currentBoard);
         } catch (JSONException e) {
             e.printStackTrace();
         }
