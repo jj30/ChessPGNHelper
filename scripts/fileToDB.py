@@ -1,27 +1,6 @@
 import os
-import sqlite3
-
-'''SELECT *
-FROM PlayersUnsorted
-WHERE Name GLOB ('*[^'||char(1,45,127)||']*');
-
-INSERT INTO Players (Name)
-SELECT PlayersUnsorted.Name
-FROM PlayersUnsorted
-LEFT JOIN Players ON PlayersUnsorted.Name = Players.Name
-WHERE IfNull(Players.Name, '') = ''  AND PlayersUnsorted.Name <> ''
-
-INSERT INTO GamesBlack
-(Event, Site, Date, Round, WhiteID, BlackID, Result, WhiteELO, BlackELO, ECO, PGN)
-SELECT GU.Event, GU.Site, GU.Date, GU.Round, GU.WhiteID, GU.BlackID, GU.Result, GU.WhiteELO, GU.BlackELO, GU.ECO, GU.PGN
-FROM GamesUnsorted GU
-LEFT JOIN GamesBlack GB ON
-GU.WhiteID  = GB.WhiteID AND
-GU.BlackID  = GB.BlackID AND
-GU.PGN = GB.PGN
-WHERE IfNull(GB.BlackID, 0) = 0
-'''
-
+# import sqlite3
+from pymongo import MongoClient
 
 def allInFolder(folder, cursor):
     # absolute paths only, pls
@@ -48,14 +27,14 @@ def perFile(fileName, cur):
         PGN = ""
         PlyCount = ""
 
-        def save_players(self, cur):
+        '''def save_players(self, cur):
             for player in (self.White, self.Black):
                 player = player.encode("ascii", "ignore")
 
                 sql_lookup = "SELECT 1 FROM PlayersUnsorted WHERE Name = '{0}'".format(player)
                 cur.execute(sql_lookup)
 
-                if (cur.fetchone() == None):
+                if (cur.rowcount == -1):
                     sql_add = "INSERT INTO PlayersUnsorted(Name) VALUES( '{0}' );".format(player)
                     cur.execute(sql_add)
 
@@ -69,20 +48,45 @@ def perFile(fileName, cur):
             except TypeError as e:
                 print "TypeError {0}".format(sql)
                 pass
-            return id
+            return id'''
+
+        def questionMarksOnly(self, string):
+            return string.replace("?", "") == ""
 
         def save(self, cur):
-            white_player_id = self.get_id(self.White)
-            black_player_id = self.get_id(self.Black)
+            # white_player_id = self.get_id(self.White)
+            # black_player_id = self.get_id(self.Black)
 
-            info = (self.Event, self.Site, self.Date, self.Round, white_player_id, black_player_id, self.Result, self.WhiteELO, self.BlackELO, self.ECO, self.PGN.strip())
+            info = (self.Event, self.Site, self.Date, self.Round, self.White, self.Black, self.Result, self.WhiteELO, self.BlackELO, self.ECO, self.PGN.strip())
+            headers = ("Event", "Site", "Date", "Round", "White", "Black", "Result", "WhiteELO", "BlackELO", "ECO", "PGN")
 
             try:
-                sql = "INSERT INTO GamesUnsorted (Event, Site, Date, Round, WhiteID, BlackID, Result, WhiteELO, BlackELO, ECO, PGN) VALUES {0}".format(info)
-                cur.execute(sql)
+                # sql = "INSERT INTO GamesUnsorted (Event, Site, Date, Round, WhiteID, BlackID, Result, WhiteELO, BlackELO, ECO, PGN) VALUES {0}".format(info)
+                # cur.execute(sql)
+
+                pgn_record = {}
+
+                for hdr in headers:
+                    idx = headers.index(hdr)
+                    if info[idx] != None and not(self.questionMarksOnly(info[idx])):
+                        pgn_record[hdr] = info[idx]
+
+                cur.insert(pgn_record)
+
             except:
-                print "Sql: {0}".format(sql)
+                # print "Sql: {0}".format(sql)
                 pass
+
+        def complete(self):
+            bIsComplete = self.Event != "" and  self.Site != "" and  self.Date != "" and \
+                self.White != "" and self.Black != "" and self.Result != "" and \
+                self.PGN != ""
+
+            return bIsComplete
+
+        def toString(self):
+            info = (self.Event, self.Site, self.Date, self.Round, self.White, self.Black, self.Result, self.WhiteELO, self.BlackELO, self.ECO, self.PGN.strip())
+            return "Event, Site, Date, Round, WhiteID, BlackID, Result, WhiteELO, BlackELO, ECO, PGN:::{0}".format(info)
 
     # new game object
     this_game = Game()
@@ -92,16 +96,22 @@ def perFile(fileName, cur):
             line_upper = line.upper()
 
             if (line_upper.find("[EVENT") > -1 and line_upper.find("[EVENTDATE") == -1):
-                if (this_game.PGN != ""):
+                # this code is duplicated because some
+                # files dont have a line spacing before the next game.
+                # which means this Event belongs to a new game
+                bIsComplete = this_game.complete()
+                if bIsComplete:
                     try:
-                        #this_game.save(cur)
                         this_game.save(cur)
                         this_game = Game()
                     except:
-                        print "White: {0}, Black: {1}".format(this_game.White, this_game.Black)
+                        print this_game.toString()
                         pass
+                else:
+                    this_game.Event = getValue(line)
 
-                this_game.Event = getValue(line)
+                bIsComplete = False
+
             elif line_upper.find("[SITE") > -1:
                 this_game.Site = getValue(line)
             elif line_upper.find("[DATE") > -1:
@@ -130,8 +140,18 @@ def perFile(fileName, cur):
                 # not added to the pgns
                 pass
             else:
-                this_game.PGN += line.rstrip("\n\r")
+                bIsComplete = this_game.complete()
+                if (line == "\n") and bIsComplete:
+                    try:
+                        this_game.save(cur)
+                        this_game = Game()
+                    except:
+                        print this_game.toString()
+                        pass
+                else:
+                    this_game.PGN += " " + line.rstrip("\n\r")
 
+                bIsComplete = False
 
 def getValue(line):
     sTemp = line.strip();
@@ -144,12 +164,14 @@ def getValue(line):
     return sTemp
 
 if __name__ == '__main__':
-    conn = sqlite3.connect('/home/jj/Code/ImportPGNs2017/PGNSDB2017')
-    cur = conn.cursor()
+    # conn = sqlite3.connect('/home/jj/Code/ImportPGNs2017/PGNSDB2017')
+    conn = MongoClient("mongodb://:27017/")
+    # cur = conn.cursor()
+    cur = conn.pgns.allPGNs
 
     # trailing backslash important
     # pgn_folder = "./AllPGNs/"
-    pgn_folder = "./PGNSAdded2017/"
+    pgn_folder = "./AllPGNs/"
     allInFolder(pgn_folder, cur)
 
-    conn.commit()
+    # conn.commit()

@@ -46,4 +46,30 @@ LEFT JOIN GamesWhite GW ON
 GU.WhiteID  = GW.WhiteID AND
 GU.BlackID  = GW.BlackID AND
 GU.PGN = GW.PGN
-WHERE IfNull(GW.BlackID, 0) = 0
+WHERE IfNull(GW.WhiteID, 0) = 0
+
+-- identify duplicates
+SELECT count(*), pgn
+FROM gamesWhite
+GROUP BY pgn
+HAVING count(*) > 1
+
+-- back up one copy of dupes
+INSERT INTO GamesUnsorted
+SELECT DISTINCT *
+FROM GamesWhite
+WHERE _id IN (
+	SELECT _id
+	FROM gamesWhite
+	GROUP BY pgn
+	HAVING count(*) > 1
+);
+
+-- delete duplicates
+ DELETE FROM GamesWhite WHERE PGN IN (
+	SELECT pgn
+	FROM gamesWhite
+	GROUP BY pgn
+	HAVING count(*) > 1
+)
+ 

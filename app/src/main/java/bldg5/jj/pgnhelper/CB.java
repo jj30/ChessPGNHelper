@@ -6,14 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TableLayout;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
-import java.util.Arrays;
 
-import bldg5.jj.pgnhelper.common.OnSwipeTouchListener;
 import bldg5.jj.pgnhelper.common.Utils;
 
 public class CB

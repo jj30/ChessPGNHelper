@@ -6,9 +6,10 @@ import urllib2
 from BeautifulSoup import BeautifulSoup
 
 if __name__ == '__main__':
-    file = open("MagnusCarlsen.pgn", "a")
+    file = open("FabianoCaruana.pgn", "a")
 
-    for id in range(1820646, 1820804):
+    # for id in range(1820646, 1820804):
+    for id in [1522114,1772638,1761859,1849553,1654832,1772668,1692790,1761799,1672574,1691561]:
         url = "http://www.chessgames.com/perl/chessgame?gid={0}".format(id)
 
         try:

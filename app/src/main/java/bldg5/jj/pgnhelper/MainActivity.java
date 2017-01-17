@@ -1,11 +1,8 @@
 package bldg5.jj.pgnhelper;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,9 +16,7 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
-import org.w3c.dom.Text;
-
-import bldg5.jj.pgnhelper.common.OnSwipeTouchListener;
+import bldg5.jj.pgnhelper.adapters.OnSwipeTouchListener;
 
 public class MainActivity extends AppCompatActivity {
     private int nMoveNumber;

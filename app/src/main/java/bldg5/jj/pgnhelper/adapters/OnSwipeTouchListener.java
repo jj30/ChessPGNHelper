@@ -1,4 +1,4 @@
-package bldg5.jj.pgnhelper.common;
+package bldg5.jj.pgnhelper.adapters;
 
 import android.content.Context;
 import android.view.GestureDetector;
