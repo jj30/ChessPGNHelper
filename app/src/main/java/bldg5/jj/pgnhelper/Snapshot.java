@@ -64,19 +64,20 @@ public class Snapshot {
         return board;
     }
 
-    public static String[][] toTheEnd(JSONObject jsonPGN) throws JSONException {
-        int nLength = jsonPGN.length() * 2;
+    public static String[][] toTheEnd(String[] aryPGNs) throws JSONException {
+        int nLength = (aryPGNs.length - 1) * 2;
         // the UI moves are half-moves
-        return PGN2Board(nLength, jsonPGN);
+        return PGN2Board(nLength, aryPGNs);
     }
 
-    public static String[][] PGN2Board(int toMoveNumber, JSONObject jsonPGN) throws JSONException {
+    public static String[][] PGN2Board(int toMoveNumber, String[] aryPgns) {
         String[][] board = initBoard();
         int nLoop = (int) (toMoveNumber + 1) / 2;
 
         for (int i = 1; i <= nLoop; i++) {
-            JSONObject move = (JSONObject) jsonPGN.get(String.valueOf(i));
-            String movePGN = move.get("S").toString();
+            // JSONObject move = (JSONObject) jsonPGN.get(String.valueOf(i));
+            // String movePGN = move.get("S").toString();
+            String movePGN = aryPgns[i].trim();
             String white = movePGN.split(" ")[0];
             String black = "";
 
@@ -100,25 +101,27 @@ public class Snapshot {
         return board;
     }
 
-    public static String[][] oneMove(int toUIMoveNumber, JSONObject jsonPGN, String[][] board) throws JSONException {
-        int nPGNMoveNumber = (int) (toUIMoveNumber + 1) / 2;
-
-        JSONObject move = (JSONObject) jsonPGN.get(String.valueOf(nPGNMoveNumber));
-        String movePGN = move.get("S").toString();
-
-        String white = movePGN.split(" ")[0];
-        String black = "";
+    public static String[][] oneMove(int toUIMoveNumber, String[] aryPGNs, String[][] board) {
 
         try {
-            black = movePGN.split(" ")[1];
+            int nPGNMoveNumber = (int) (toUIMoveNumber + 1) / 2;
+            String movePGN = aryPGNs[nPGNMoveNumber].trim();
+            String white = movePGN.split(" ")[0];
+            String black = "";
+
+            try {
+                black = movePGN.split(" ")[1];
+            } catch (ArrayIndexOutOfBoundsException ex) {
+                Log.i("PGNHelper", "Game ends on white move.");
+            } finally {
+                // which half of the PGN move is this? the 1st or the 2nd half?
+                if (toUIMoveNumber % 2 == 1)
+                    board = transform("w", white, board);
+                else
+                    board = transform("b", black, board);
+            }
         } catch (ArrayIndexOutOfBoundsException ex) {
-            Log.i("PGNHelper", "Game ends on white move.");
-        } finally {
-            // which half of the PGN move is this? the 1st or the 2nd half?
-            if (toUIMoveNumber % 2 == 0)
-                board = transform("b", black, board);
-            else
-                board = transform("w", white, board);
+            // passed the last move in the game.
         }
 
         return board;
@@ -177,7 +180,7 @@ public class Snapshot {
 
                 // find pawn that is going to xDest, yDest
                 try {
-                    int[] location = findPiece(wb, "P", xDest, yDest, bCapture, currentBoard);
+                    int[] location = findPiece(hFileRank, wb, "P", xDest, yDest, bCapture, currentBoard);
 
                     // so the new board doesn't have a pawn at xDest, ySource
                     // but does have a pawn at xDest, yDest

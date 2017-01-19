@@ -4,47 +4,50 @@ package bldg5.jj.pgnhelper.common;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Game {
-    private Player white;
-    private Player black;
+import java.io.Serializable;
 
-    @SerializedName("_gameId")
-    @Expose
-    private int _gameId;
-
-    @SerializedName("event")
+public class Game implements Serializable {
+    @SerializedName("Event")
     @Expose
     private String event;
 
-    @SerializedName("site")
+    @SerializedName("Site")
     @Expose
     private String site;
 
-    @SerializedName("date")
+    @SerializedName("Date")
     @Expose
     private String date;
 
-    @SerializedName("round")
+    @SerializedName("Round")
     @Expose
     private String round;
 
-    @SerializedName("result")
+    @SerializedName("Result")
     @Expose
     private String result;
 
-    @SerializedName("whiteelo")
+    @SerializedName("WhiteELO")
     @Expose
     private String whiteelo;
 
-    @SerializedName("blackelo")
+    @SerializedName("BlackELO")
     @Expose
     private String blackelo;
 
-    @SerializedName("eco")
+    @SerializedName("White")
+    @Expose
+    private String white;
+
+    @SerializedName("Black")
+    @Expose
+    private String black;
+
+    @SerializedName("ECO")
     @Expose
     private String eco;
 
-    @SerializedName("pgn")
+    @SerializedName("PGN")
     @Expose
     private String pgn;
 
@@ -96,12 +99,28 @@ public class Game {
         whiteelo = _whiteelo;
     }
 
+    public String getBlack() {
+        return black;
+    }
+
+    public void setBlack(String _black) {
+        black = _black;
+    }
+
     public String getBlackelo() {
         return blackelo;
     }
 
     public void setBlackelo(String _blackelo) {
         blackelo = _blackelo;
+    }
+
+    public String getWhite() {
+        return white;
+    }
+
+    public void setWhite(String _white) {
+        white = _white;
     }
 
     public String getEco() {
@@ -119,5 +138,4 @@ public class Game {
     public void setPgn(String _pgn) {
         pgn = _pgn;
     }
-
 }

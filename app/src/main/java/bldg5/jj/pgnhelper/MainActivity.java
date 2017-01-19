@@ -1,6 +1,7 @@
 package bldg5.jj.pgnhelper;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -17,6 +18,8 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import bldg5.jj.pgnhelper.adapters.OnSwipeTouchListener;
+import bldg5.jj.pgnhelper.common.Game;
+import bldg5.jj.pgnhelper.common.Games;
 
 public class MainActivity extends AppCompatActivity {
     private int nMoveNumber;
@@ -36,18 +39,24 @@ public class MainActivity extends AppCompatActivity {
         Button btnLast = (Button) findViewById(R.id.btnLast);
         Button btnSwitch = (Button) findViewById(R.id.btnSwitch);
         boardShowing = (CB) findViewById(R.id.boardShowing);
+
+
+        Intent intent = getIntent();
+        // final Games allGames = (Games) intent.getSerializableExtra("DisplayedGames");
+        final Game gameSelected = (Game) intent.getSerializableExtra("SelectedGame");
+        String game_info = (String) intent.getStringExtra("GameInfo");
+        boardShowing.setGame(gameSelected);
+
         final TextView txtMove = (TextView) findViewById(R.id.txtCurrentMove);
-        // basic info on zeroth move, who's black, who's white, etc.
-        String strGameInfo = boardShowing.getInfo();
 
         // if it's long, make the font smaller
         // if it's really long trim it.
         // under 170, 20 size
         // between 170 and 300, 15 size
         // higher than 300, 12 size
-        if (strGameInfo.length() > 170) {
-            if (strGameInfo.length() > 300) {
-                strGameInfo = strGameInfo.substring(0, 500);
+        if (game_info.length() > 170) {
+            if (game_info.length() > 300) {
+                game_info = game_info.substring(0, 500);
                 txtMove.setTextSize(12.0f);
             } else {
                 // strGameInfo = strGameInfo.substring(0, 170);
@@ -58,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // set the text
-        txtMove.setText(strGameInfo);
+        txtMove.setText(game_info);
         // set up the navigation drawer.
         setupDrawer();
 
@@ -141,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
         // if the game ends on a white move, this will be higher than
         // the max # of UI moves by one.
         nMoveNumber = 2 * boardShowing.getNumMoves();
+        boardShowing.setMoveNumber(nMoveNumber);
         boardShowing.toTheEnd();
     }
 
@@ -202,28 +212,27 @@ public class MainActivity extends AppCompatActivity {
 
         //create the drawer and remember the `Drawer` result object
         Drawer result = new DrawerBuilder()
-                .withActivity(this)
-                // .withToolbar(toolbar)
-                .addDrawerItems(
-                        homeItem,
-                        searchItem,
-                        new DividerDrawerItem(),
-                        new SecondaryDrawerItem().withName(R.string.drawer_item_settings)
-                )
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if (position == 0) {
-                            // home
-                        }
-
-                        if (position == 1) {
-                            // search
-                        }
-                        return true;
+            .withActivity(this)
+            // .withToolbar(toolbar)
+            .addDrawerItems(
+                    homeItem,
+                    searchItem,
+                    new DividerDrawerItem(),
+                    new SecondaryDrawerItem().withName(R.string.drawer_item_settings)
+            )
+            .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                @Override
+                public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                    if (position == 0) {
+                        // home
                     }
-                })
-                .build();
+
+                    if (position == 1) {
+                        // search
+                    }
+                    return true;
+                }
+            }).build();
 
     }
 }
