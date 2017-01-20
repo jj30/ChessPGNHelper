@@ -38,34 +38,33 @@
         android:id="@+id/linearLayout">
 
         <Button
-            android:text="&lt;&lt;"
-            android:layout_width="65dp"
+            android:background="@drawable/ic_fast_rewind_black_24dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:id="@+id/btnFirst" />
         <Button
-            android:text="&lt;"
-            android:layout_width="65dp"
+            android:background="@drawable/ic_skip_previous_black_24dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:id="@+id/btnPrev" />
         <Button
-            android:text="&gt;"
-            android:layout_width="65dp"
+            android:background="@drawable/ic_skip_next_black_24dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:id="@+id/btnNext" />
         <Button
-            android:text="&gt;&gt;"
-            android:layout_width="65dp"
+            android:background="@drawable/ic_fast_forward_black_24dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:id="@+id/btnLast" />
         <Button
-            android:text="x"
-            android:layout_width="65dp"
+            android:background="@drawable/ic_shuffle_black_24dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:id="@+id/btnSwitch" />
         <Button
-            android:text=""
             android:background="@drawable/ic_share_black_24dp"
-            android:layout_width="45dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:id="@+id/btnShare" />
     </LinearLayout>
