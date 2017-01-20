@@ -1,5 +1,7 @@
 package bldg5.jj.pgnhelper;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -38,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
         Button btnNext = (Button) findViewById(R.id.btnNext);
         Button btnLast = (Button) findViewById(R.id.btnLast);
         Button btnSwitch = (Button) findViewById(R.id.btnSwitch);
+        Button btnShare = (Button) findViewById(R.id.btnShare);
         boardShowing = (CB) findViewById(R.id.boardShowing);
-
 
         Intent intent = getIntent();
         // final Games allGames = (Games) intent.getSerializableExtra("DisplayedGames");
@@ -103,6 +106,33 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 boardShowing.switchSides();
+            }
+        });
+
+        btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String pgn = gameSelected.toString();
+
+                // First, copy the PGN to the clipboard
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("PGN", pgn);
+                clipboard.setPrimaryClip(clip);
+
+                // then, toast that this has been completed.
+                Context context = getApplicationContext();
+                CharSequence text = "PGN added to clipboard.";
+                int duration = Toast.LENGTH_LONG;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
+                // Finally, share it with the text intent
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, pgn);
+                sendIntent.setType("text/plain");
+                startActivity(sendIntent);
             }
         });
 

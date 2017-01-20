@@ -1,6 +1,8 @@
 package bldg5.jj.pgnhelper.common;
 
 
+import android.util.Log;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -137,5 +139,32 @@ public class Game implements Serializable {
 
     public void setPgn(String _pgn) {
         pgn = _pgn;
+    }
+
+    public String toString() {
+        String strReturn = this.pgn;
+
+        try {
+            String strTemplate = "[Event \"%s\"]\n[Site \"%s\"]\n[Date \"%s\"]\n[Round \"%s\"]\n[Result \"%s\"]\n[White \"%s\"]\n[Black \"%s\"]\n[ECO \"%s\"]\n[WhiteElo \"%s\"]\n[BlackElo \"%s\"]\n\n%s\n";
+
+            String strEvent = event == null ? "": event;
+            String strSite = site == null ? "" : site;
+            String strDate = date == null ? "" : date;
+            String strRound = round == null ? "" : round;
+            String strResult = result == null ? "" : result;
+            String strWhite = white == null ? "" : white;
+            String strBlack = black == null ? "" : black;
+            String strECO = eco == null ? "" : eco;
+            String strWhiteELO = whiteelo == null ? "" : whiteelo;
+            String strBlackELO = blackelo == null ? "" : blackelo;
+            String strPGN = pgn == null ? "" : pgn;
+
+            strReturn = String.format(strTemplate, strEvent, strSite, strDate, strRound, strResult, strWhite, strBlack, strECO, strWhiteELO, strBlackELO, strPGN);
+
+        } catch(Exception x) {
+            Log.e("PGNHelper", x.getMessage());
+        }
+
+        return strReturn;
     }
 }

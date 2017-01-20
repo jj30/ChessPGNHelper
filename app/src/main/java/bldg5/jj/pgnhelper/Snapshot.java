@@ -127,8 +127,6 @@ public class Snapshot {
 
     public static String[][] transform(String wb, String move, String[][] currentBoard) {
         /// TODO
-        ///        promotion
-        /// en passsant
         /// test queen-side castle
         if (move.equals(""))
             return currentBoard;
@@ -184,6 +182,13 @@ public class Snapshot {
                     // but does have a pawn at xDest, yDest
                     currentBoard[yDest][xDest] = currentBoard[location[1]][location[0]];
                     currentBoard[location[1]][location[0]] = "";
+
+                    // for en passant
+                    if (bCapture) {
+                        // the pawn just moved to column 3 or 4.
+                        int yDestroy = wb == "w" ? 4 : 3;
+                        currentBoard[yDestroy][xDest] = "";
+                    }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
