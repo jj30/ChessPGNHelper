@@ -4,7 +4,6 @@ package bldg5.jj.pgnhelper;
 import android.util.Log;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -75,8 +74,6 @@ public class Snapshot {
         int nLoop = (int) (toMoveNumber + 1) / 2;
 
         for (int i = 1; i <= nLoop; i++) {
-            // JSONObject move = (JSONObject) jsonPGN.get(String.valueOf(i));
-            // String movePGN = move.get("S").toString();
             String movePGN = aryPgns[i].trim();
             String white = movePGN.split(" ")[0];
             String black = "";
@@ -122,6 +119,7 @@ public class Snapshot {
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
             // passed the last move in the game.
+            Log.e("PGNHelper", ex.getMessage());
         }
 
         return board;
@@ -195,15 +193,23 @@ public class Snapshot {
                 xDest = xAxis.indexOf(intersect(xAxis, move));
                 yDest = yAxis.indexOf(intersect(yAxis, move));
 
-                int[] location = findPiece(hFileRank, wb, xOther, xDest, yDest, bCapture, currentBoard);
+                if (move.contains("=")) {
+                    // pawn promotion, remove pawn, add queen.
+                    // queen goes on xDest, yDest
+                    currentBoard[yDest][xDest] = wb == "w" ? "wq" : "bq";
+                    int ySource = wb == "w" ? 6 : 1;
+                    currentBoard[ySource][xDest] = "";
+                } else {
+                    int[] location = findPiece(hFileRank, wb, xOther, xDest, yDest, bCapture, currentBoard);
 
-                try {
-                    // so the piece is at xSource, ySource
-                    // and must move to xDest, yDest
-                    currentBoard[yDest][xDest] = currentBoard[location[1]][location[0]];
-                    currentBoard[location[1]][location[0]] = "";
-                } catch (ArrayIndexOutOfBoundsException ex) {
-                    Log.i("PGNHelper", "Did not find piece.");
+                    try {
+                        // so the piece is at xSource, ySource
+                        // and must move to xDest, yDest
+                        currentBoard[yDest][xDest] = currentBoard[location[1]][location[0]];
+                        currentBoard[location[1]][location[0]] = "";
+                    } catch (ArrayIndexOutOfBoundsException ex) {
+                        Log.i("PGNHelper", "Did not find piece.");
+                    }
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();

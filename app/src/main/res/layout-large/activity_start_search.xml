@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_start_search"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="bldg5.jj.pgnhelper.StartSearch">
+
+    <TextView
+        android:text="White"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="45dp"
+        android:id="@+id/txtWhite" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="White"
+        android:ems="10"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/btnFindGames"
+        android:layout_marginTop="31dp"
+        android:id="@+id/editTextWhite" />
+
+    <TextView
+        android:text="Black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextWhite"
+        android:layout_alignStart="@+id/txtWhite"
+        android:layout_marginTop="63dp"
+        android:id="@+id/txtBlack" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Black"
+        android:ems="10"
+        android:layout_alignTop="@+id/txtBlack"
+        android:layout_alignStart="@+id/editTextWhite"
+        android:id="@+id/editTextBlack" />
+
+    <Button
+        android:text="Find Games"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnFindGames"
+        android:layout_below="@+id/editTextBlack"
+        android:layout_alignStart="@+id/txtBlack"
+        android:layout_marginTop="41dp" />
+
+    <!--<CheckBox
+        android:text="Ignore Color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnFindGames"
+        android:layout_alignStart="@+id/btnFindGames"
+        android:layout_marginBottom="17dp"
+        android:id="@+id/chkIgnoreColor" />-->
+</RelativeLayout>

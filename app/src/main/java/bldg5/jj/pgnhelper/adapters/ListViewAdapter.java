@@ -32,8 +32,7 @@ public class ListViewAdapter extends BaseAdapter {
 
         @Override
         public long getItemId(int position) {
-            // TODO implement you own logic with ID
-            return 0;
+            return position;
         }
 
         @Override
@@ -48,7 +47,6 @@ public class ListViewAdapter extends BaseAdapter {
 
             Map.Entry<String, String> item = getItem(position);
 
-            // TODO replace findViewById by ViewHolder
             ((TextView) result.findViewById(R.id.txtName)).setText(item.getKey());
             ((TextView) result.findViewById(R.id.txtId)).setText(item.getValue());
 

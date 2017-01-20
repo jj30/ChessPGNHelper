@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +20,6 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import bldg5.jj.pgnhelper.adapters.OnSwipeTouchListener;
 import bldg5.jj.pgnhelper.common.Game;
-import bldg5.jj.pgnhelper.common.Games;
 
 public class MainActivity extends AppCompatActivity {
     private int nMoveNumber;
@@ -88,14 +88,14 @@ public class MainActivity extends AppCompatActivity {
         btnFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                first();
+                first(txtMove);
             }
         });
 
         btnLast.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                last();
+                last(txtMove);
             }
         });
 
@@ -110,14 +110,26 @@ public class MainActivity extends AppCompatActivity {
 
         // set the swipe listener
         boardShowing.setOnTouchListener(new OnSwipeTouchListener(context) {
-            public void onSwipeTop() { last(); }
+            public void onSwipeTop() { last(txtMove); }
 
             public void onSwipeRight() { prev(txtMove); }
 
             public void onSwipeLeft() { next(txtMove); }
 
-            public void onSwipeBottom() { first(); }
+            public void onSwipeBottom() { first(txtMove); }
         });
+
+        // what is my screen density?
+        /* http://stackoverflow.com/questions/3166501/getting-the-screen-density-programmatically-in-android
+        0.75 - ldpi
+        1.0 - mdpi
+        1.5 - hdpi
+        2.0 - xhdpi
+        3.0 - xxhdpi
+        4.0 - xxxhdpi
+        */
+        float scale = getApplicationContext().getResources().getDisplayMetrics().density;
+        Log.i("PGNHelper", String.valueOf(scale));
     }
 
     private void next(TextView txtMove) {
@@ -132,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void prev(TextView txtMove) {
         nMoveNumber = boardShowing.getMoveNumber() - 1;
+        nMoveNumber = (nMoveNumber <= 0) ? 0 : nMoveNumber;
+
         boardShowing.setMoveNumber(nMoveNumber);
 
         // the pgn is set on instancing of CB so set the text view
@@ -140,17 +154,19 @@ public class MainActivity extends AppCompatActivity {
         boardShowing.halfMoveBackwards();
     }
 
-    private void first() {
+    private void first(TextView txtMove) {
         nMoveNumber = 0;
         boardShowing.setMoveNumber(nMoveNumber);
+        txtMove.setText(boardShowing.getMove());
         boardShowing.initBoard();
     }
 
-    private void last() {
+    private void last(TextView txtMove) {
         // if the game ends on a white move, this will be higher than
         // the max # of UI moves by one.
         nMoveNumber = 2 * boardShowing.getNumMoves();
         boardShowing.setMoveNumber(nMoveNumber);
+        txtMove.setText(boardShowing.getMove());
         boardShowing.toTheEnd();
     }
 

@@ -1,5 +1,6 @@
 import os
-# import sqlite3
+import sys
+import traceback
 from pymongo import MongoClient
 
 def allInFolder(folder, cursor):
@@ -71,9 +72,14 @@ def perFile(fileName, cur):
                     if info[idx] != None and not(self.questionMarksOnly(info[idx])):
                         pgn_record[hdr] = info[idx]
 
-                cur.insert(pgn_record)
 
+                results = cur.find(pgn_record)
+                results_count = results.count(True)
+
+                if (results_count == 0):
+                    cur.insert(pgn_record)
             except:
+                traceback.print_exc(file=sys.stdout)
                 # print "Sql: {0}".format(sql)
                 pass
 
@@ -107,9 +113,8 @@ def perFile(fileName, cur):
                     except:
                         print this_game.toString()
                         pass
-                else:
-                    this_game.Event = getValue(line)
 
+                this_game.Event = getValue(line)
                 bIsComplete = False
 
             elif line_upper.find("[SITE") > -1:
@@ -140,18 +145,7 @@ def perFile(fileName, cur):
                 # not added to the pgns
                 pass
             else:
-                bIsComplete = this_game.complete()
-                if (line == "\n") and bIsComplete:
-                    try:
-                        this_game.save(cur)
-                        this_game = Game()
-                    except:
-                        print this_game.toString()
-                        pass
-                else:
-                    this_game.PGN += " " + line.rstrip("\n\r")
-
-                bIsComplete = False
+                this_game.PGN += " " + line.rstrip("\n\r")
 
 def getValue(line):
     sTemp = line.strip();
@@ -165,12 +159,11 @@ def getValue(line):
 
 if __name__ == '__main__':
     # conn = sqlite3.connect('/home/jj/Code/ImportPGNs2017/PGNSDB2017')
-    conn = MongoClient("mongodb://:27017/")
+    conn = MongoClient("mongodb://ec2-54-158-98-180.compute-1.amazonaws.com:27017/")
     # cur = conn.cursor()
     cur = conn.pgns.allPGNs
 
     # trailing backslash important
-    # pgn_folder = "./AllPGNs/"
     pgn_folder = "./AllPGNs/"
     allInFolder(pgn_folder, cur)
 

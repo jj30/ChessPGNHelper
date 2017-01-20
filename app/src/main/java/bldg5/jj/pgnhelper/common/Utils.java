@@ -11,8 +11,6 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 
-import bldg5.jj.pgnhelper.CB;
-
 public class Utils {
     // http://stackoverflow.com/questions/6349759/using-json-file-in-android-app-resources#6349913
     public static String getJSONFromRaw(Context ctx, Integer nResourceID) throws IOException {
