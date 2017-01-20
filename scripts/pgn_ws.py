@@ -1,4 +1,7 @@
 import cherrypy
+import re
+
+import pymongo
 from pymongo import MongoClient
 from bson.json_util import dumps
 
@@ -8,10 +11,13 @@ class GetOptions(object):
         browserOk = False
         browserOk = cherrypy.request.headers["User-Agent"] == 'okhttp/3.3.0'
 
+        regex_w = re.compile(w, re.IGNORECASE)
+        regex_b = re.compile(b, re.IGNORECASE)
+
         conn = MongoClient("mongodb://ec2-54-158-98-180.compute-1.amazonaws.com:27017/pgns")
         cur = conn.pgns.allPGNs
 
-        all_results = cur.find({ "White" : { "$regex" : w }, "Black" : { "$regex" : b }})
+        all_results = cur.find({ "White" : { "$regex" : regex_w }, "Black" : { "$regex" : regex_b } }, { '_id' : False }).sort("White", pymongo.ASCENDING)
         # all_results = cur.find({}, {'_id': False}).limit(1)
 
         final_dct = {}

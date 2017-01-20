@@ -10,7 +10,8 @@ if __name__ == '__main__':
 
     # for id in range(1820646, 1820804):
     # for id in [1848607, 1848606, 1848605, 1848598, 1848592, 1848578, 1848571, 1848564, 1848549, 1848222, 1848218, 1848217, 1848216, 1847850, 1847725, 1847603]:
-    for id in [1848578]:
+    # fisher spassky 1044387 to 399
+    for id in range(1044387, 1044399):
         url = "http://www.chessgames.com/perl/chessgame?gid={0}".format(id)
 
         try:

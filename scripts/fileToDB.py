@@ -147,6 +147,9 @@ def perFile(fileName, cur):
             else:
                 this_game.PGN += " " + line.rstrip("\n\r")
 
+        # save the last game in the file.
+        this_game.save(cur)
+
 def getValue(line):
     sTemp = line.strip();
     # the meat is between the double quotes
@@ -164,7 +167,7 @@ if __name__ == '__main__':
     cur = conn.pgns.allPGNs
 
     # trailing backslash important
-    pgn_folder = "./AllPGNs/"
+    pgn_folder = "./ah/"
     allInFolder(pgn_folder, cur)
 
     # conn.commit()
