@@ -31,10 +31,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // setContentView(R.layout.activity_main);
         setContentView(R.layout.content_main);
-        // Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // setSupportActionBar(toolbar);
+
+        // Show the ad
+        /* AdRequest adRequest = new AdRequest.Builder().build();
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-1882113672777118~2383929384");
+
+        mAdView = (AdView) findViewById(R.id.adView);
+        mAdView.loadAd(adRequest);*/
 
         Button btnFirst = (Button) findViewById(R.id.btnFirst);
         Button btnPrev = (Button) findViewById(R.id.btnPrev);
@@ -71,8 +75,10 @@ public class MainActivity extends AppCompatActivity {
 
         // set the text
         txtMove.setText(game_info);
+
+        // TODO finish drawer
         // set up the navigation drawer.
-        setupDrawer();
+        // setupDrawer();
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override

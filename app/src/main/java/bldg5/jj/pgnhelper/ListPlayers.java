@@ -15,6 +15,7 @@ import bldg5.jj.pgnhelper.adapters.ApiEndpoint;
 import bldg5.jj.pgnhelper.adapters.ListViewAdapter;
 import bldg5.jj.pgnhelper.common.Game;
 import bldg5.jj.pgnhelper.common.Games;
+import bldg5.jj.pgnhelper.common.Utils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,7 +23,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ListPlayers extends AppCompatActivity {
-    public final static String BASE_URL = "http://ec2-54-158-98-180.compute-1.amazonaws.com:8080/find_player/";
+    // must end in a forward slash
+    public static final String BASE_URL = "http://ec2-54-158-98-180.compute-1.amazonaws.com:8080/find_player/";
     private Games results;
 
     @Override
@@ -82,6 +84,10 @@ public class ListPlayers extends AppCompatActivity {
                         hashMap.put(gWhite, "Number of Games: " + String.valueOf(nNumGames));
                         white = gWhite;
                     }
+
+                    if (nNumGames == 0) {
+                        hashMap.put("Please check your connection or search criteria.", "No games were found.");
+                    }
                 }
 
                 ListViewAdapter playersListAdapter = new ListViewAdapter(hashMap);
@@ -90,6 +96,12 @@ public class ListPlayers extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Games> call, Throwable t) {
+                HashMap<String, String> hashMap = new HashMap<String, String>() {};
+                hashMap.put("Please check your connection or search criteria.", "No games were found.");
+
+                ListViewAdapter playersListAdapter = new ListViewAdapter(hashMap);
+                lv.setAdapter(playersListAdapter);
+
                 Log.e("PGNHelper", t.toString());
             }
         });
