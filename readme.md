@@ -2,7 +2,7 @@ During last year's Chess Championship, on November 11, 2016, Magnus Carlsen vs K
 
 ![Figure 1: Karjakin exposes his queen.](https://github.com/jj30/ChessPGNHelper/blob/master/csen_takes_k_not_q_0.png?raw=true)
 
-Figure 1: Karjakin exposes his queen.
+Figure 1: Just before Karjakin exposes his queen.
 
 ![Figure 2: Carlsen can take the queen with his rook at c1.](https://github.com/jj30/ChessPGNHelper/blob/master/csen_takes_k_not_q_1.png?raw=true)
 Figure 2: Carlsen can take the queen with his rook at c1.
