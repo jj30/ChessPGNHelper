@@ -184,7 +184,7 @@ public class Snapshot {
                     currentBoard[location[1]][location[0]] = "";
 
                     // for en passant
-                    if (bCapture) {
+                    if (bCapture && (yDest == 5 || yDest == 2)) {
                         // the pawn just moved to column 3 or 4.
                         int yDestroy = wb == "w" ? 4 : 3;
                         currentBoard[yDestroy][xDest] = "";

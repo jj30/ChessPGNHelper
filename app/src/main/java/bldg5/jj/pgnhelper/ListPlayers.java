@@ -15,7 +15,6 @@ import bldg5.jj.pgnhelper.adapters.ApiEndpoint;
 import bldg5.jj.pgnhelper.adapters.ListViewAdapter;
 import bldg5.jj.pgnhelper.common.Game;
 import bldg5.jj.pgnhelper.common.Games;
-import bldg5.jj.pgnhelper.common.Utils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
