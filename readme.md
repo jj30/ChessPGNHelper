@@ -18,3 +18,6 @@ I don't actually know. I was asking YOU. But if you want to study chess games, t
 
 You can copy a game to the clipboard to email, or to export to another application.
 
+![Install the application](https://github.com/jj30/ChessPGNHelper/blob/master/static_qr_code_without_logo.jpg?raw=true)
+
+https://github.com/jj30/ChessPGNHelper/blob/master/app/app-release.apk
