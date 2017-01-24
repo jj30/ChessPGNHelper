@@ -12,7 +12,7 @@ Figure 3: Instead, Carlsen trades rook for knight.
 
 But why?
 
-I don't actually know. I was asking YOU. But if you want to study chess games, this Android application will help you. We have about 288 K games in the cloud. Feel free to study and learn from them.
+Because they reached a detente not to trade queens. If you want to study more chess games, this Android application will help you. We have about 288 K games in the cloud. Feel free to study and learn from them.
 
 ![Figure 4:](https://github.com/jj30/ChessPGNHelper/blob/master/images/clipboard.png?raw=true)
 
