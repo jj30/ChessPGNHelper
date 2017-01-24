@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="bldg5.jj.pgnhelper">
+    package="bldg5.jj.pgnbase">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/icon"
+        android:icon="@drawable/icon2"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="bldg5.jj.pgnbase.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".HomeActivity"
+            android:name="bldg5.jj.pgnbase.HomeActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
 
             <intent-filter>
@@ -24,10 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListPlayers">
+        <activity android:name="bldg5.jj.pgnbase.ListPlayers">
         </activity>
-        <activity android:name=".ListGames"></activity>
-        <activity android:name=".StartSearch"></activity>
+        <activity android:name="bldg5.jj.pgnbase.ListGames"></activity>
+        <activity android:name="bldg5.jj.pgnbase.StartSearch"></activity>
     </application>
 
 </manifest>

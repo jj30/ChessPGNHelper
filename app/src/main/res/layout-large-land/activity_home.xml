@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:background="@drawable/gradient_background"
-    tools:context="bldg5.jj.pgnhelper.HomeActivity">
+    tools:context="bldg5.jj.pgnbase.HomeActivity">
 
     <!--http://blog.vogella.com/2011/07/19/android-shapes/-->
 

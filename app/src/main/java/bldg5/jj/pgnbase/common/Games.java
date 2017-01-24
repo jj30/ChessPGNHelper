@@ -1,4 +1,4 @@
-package bldg5.jj.pgnhelper.common;
+package bldg5.jj.pgnbase.common;
 
 import com.google.gson.annotations.SerializedName;
 

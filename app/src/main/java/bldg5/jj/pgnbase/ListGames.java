@@ -1,4 +1,4 @@
-package bldg5.jj.pgnhelper;
+package bldg5.jj.pgnbase;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import java.util.HashMap;
 
-import bldg5.jj.pgnhelper.adapters.ListViewAdapter;
-import bldg5.jj.pgnhelper.common.Game;
-import bldg5.jj.pgnhelper.common.Games;
+import bldg5.jj.pgnbase.adapters.ListViewAdapter;
+import bldg5.jj.pgnbase.common.Game;
+import bldg5.jj.pgnbase.common.Games;
 
 public class ListGames extends AppCompatActivity {
     private static final String identifier =  "ID: ";

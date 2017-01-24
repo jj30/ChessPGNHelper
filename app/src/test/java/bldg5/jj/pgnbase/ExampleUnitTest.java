@@ -1,4 +1,4 @@
-package bldg5.jj.pgnhelper;
+package bldg5.jj.pgnbase;
 
 import org.junit.Test;
 

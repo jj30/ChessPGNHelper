@@ -1,18 +1,15 @@
-package bldg5.jj.pgnhelper;
-
+package bldg5.jj.pgnbase;
 
 import android.util.Log;
-
 import org.json.JSONException;
-
 import java.util.HashMap;
-
-import bldg5.jj.pgnhelper.common.Piece;
+import bldg5.jj.pgnbase.common.Piece;
 
 public class Snapshot {
     public static final String xAxis = "abcdefgh";
     public static final String yAxis = "12345678";
     public static final String nonPawns = "RNBQK";
+    private static final String tag = "Snapshot.java";
 
     // board resource ID's. This is just the board wo the pieces
     public static final int[][] boardRIDs = {
@@ -82,7 +79,7 @@ public class Snapshot {
                 black = movePGN.split(" ")[1];
             }
             catch(ArrayIndexOutOfBoundsException ex) {
-                Log.i("PGNHelper", "Game ends on white move.");
+                Log.i(tag, "Game ends on white move.");
             } finally {
                 board = transform("w", white, board);
 
@@ -109,7 +106,7 @@ public class Snapshot {
             try {
                 black = movePGN.split(" ")[1];
             } catch (ArrayIndexOutOfBoundsException ex) {
-                Log.i("PGNHelper", "Game ends on white move.");
+                Log.i(tag, "Game ends on white move.");
             } finally {
                 // which half of the PGN move is this? the 1st or the 2nd half?
                 if (toUIMoveNumber % 2 == 1)
@@ -119,15 +116,13 @@ public class Snapshot {
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
             // passed the last move in the game.
-            Log.e("PGNHelper", ex.getMessage());
+            Log.e(tag, ex.getMessage());
         }
 
         return board;
     }
 
     public static String[][] transform(String wb, String move, String[][] currentBoard) {
-        /// TODO
-        /// test queen-side castle
         if (move.equals(""))
             return currentBoard;
 
@@ -213,7 +208,7 @@ public class Snapshot {
                         currentBoard[yDest][xDest] = currentBoard[location[1]][location[0]];
                         currentBoard[location[1]][location[0]] = "";
                     } catch (ArrayIndexOutOfBoundsException ex) {
-                        Log.i("PGNHelper", "Did not find piece.");
+                        Log.i(tag, "Did not find piece.");
                     }
                 }
             } catch (Exception ex) {

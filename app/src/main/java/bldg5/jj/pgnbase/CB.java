@@ -1,4 +1,4 @@
-package bldg5.jj.pgnhelper;
+package bldg5.jj.pgnbase;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -11,7 +11,7 @@ import org.json.JSONException;
 
 import java.util.regex.Pattern;
 
-import bldg5.jj.pgnhelper.common.Game;
+import bldg5.jj.pgnbase.common.Game;
 
 public class CB
         extends TableLayout {
@@ -33,6 +33,7 @@ public class CB
     private String result = "";
     private String round = "";
     private Game game;
+    private static final String tag = "CB.java";
 
     public Integer getMoveNumber() {
         return this.nMoveNumber;
@@ -89,10 +90,6 @@ public class CB
     public CB(Context context, AttributeSet attrs) {
         super(context, attrs);
         initializeViews(context);
-
-
-
-
 
         String[][] board = Snapshot.PGN2Board(nMoveNumber, aryPGNs);
         Drawboard(board);
@@ -187,14 +184,13 @@ public class CB
     public void halfMove() {
 
         try {
-
             String[][] board = currentBoard;
             board = Snapshot.oneMove(nMoveNumber, aryPGNs, currentBoard);
 
             currentBoard = board;
             Drawboard(board);
         } catch(Exception ex) {
-            Log.e("PGNHelper", ex.getMessage());
+            Log.e(tag, ex.getMessage());
         }
     }
 
@@ -223,7 +219,7 @@ public class CB
                 }
             }
         } catch (Exception ex) {
-            Log.e("PGNHelper", ex.getMessage());
+            Log.e(tag, ex.getMessage());
         }
     }
 

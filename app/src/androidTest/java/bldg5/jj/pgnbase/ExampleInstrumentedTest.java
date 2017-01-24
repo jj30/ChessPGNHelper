@@ -1,4 +1,4 @@
-package bldg5.jj.pgnhelper;
+package bldg5.jj.pgnbase;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("bldg5.jj.pgnhelper", appContext.getPackageName());
+        assertEquals("bldg5.jj.pgnbase", appContext.getPackageName());
     }
 }

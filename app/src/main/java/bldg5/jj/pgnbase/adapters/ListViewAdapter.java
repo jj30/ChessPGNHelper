@@ -1,4 +1,4 @@
-package bldg5.jj.pgnhelper.adapters;
+package bldg5.jj.pgnbase.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +9,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Map;
 
-import bldg5.jj.pgnhelper.R;
+import bldg5.jj.pgnbase.R;
 
 // http://stackoverflow.com/questions/19466757/hashmap-to-listview
 public class ListViewAdapter extends BaseAdapter {

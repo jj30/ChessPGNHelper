@@ -6,15 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="bldg5.jj.pgnhelper.MainActivity"
+    tools:context="bldg5.jj.pgnbase.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <!--<bldg5.jj.pgnhelper.CB
+    <!--<pgnbaseB
         android:id="@+id/boardShowing"
         android:layout_height="match_parent"
         android:layout_width="match_parent" />-->
 
-    <view class="bldg5.jj.pgnhelper.CB"
+    <view class="bldg5.jj.pgnbase.CB"
         android:id="@+id/boardShowing"
         android:layout_height="match_parent"
         android:layout_width="wrap_content"></view>

@@ -1,4 +1,4 @@
-package bldg5.jj.pgnhelper.common;
+package bldg5.jj.pgnbase.common;
 
 
 import android.util.Log;
@@ -9,6 +9,8 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class Game implements Serializable {
+    private static final String tag = "Game.java";
+
     @SerializedName("Event")
     @Expose
     private String event;
@@ -162,7 +164,7 @@ public class Game implements Serializable {
             strReturn = String.format(strTemplate, strEvent, strSite, strDate, strRound, strResult, strWhite, strBlack, strECO, strWhiteELO, strBlackELO, strPGN);
 
         } catch(Exception x) {
-            Log.e("PGNHelper", x.getMessage());
+            Log.e(tag, x.getMessage());
         }
 
         return strReturn;

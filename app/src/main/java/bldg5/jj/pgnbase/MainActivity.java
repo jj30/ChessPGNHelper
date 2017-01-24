@@ -1,4 +1,4 @@
-package bldg5.jj.pgnhelper;
+package bldg5.jj.pgnbase;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -21,32 +21,45 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
-import bldg5.jj.pgnhelper.adapters.OnSwipeTouchListener;
-import bldg5.jj.pgnhelper.common.Game;
+import bldg5.jj.pgnbase.adapters.OnSwipeTouchListener;
+import bldg5.jj.pgnbase.common.Game;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
     private int nMoveNumber;
-    private CB boardShowing;
+    private static final String tag = "MainActivity.java";
+
+    // private CB boardShowing;
+    @BindView(R2.id.btnFirst) Button btnFirst;
+    @BindView(R2.id.btnPrev) Button btnPrev;
+    @BindView(R2.id.btnNext) Button btnNext;
+    @BindView(R2.id.btnLast) Button btnLast;
+    @BindView(R2.id.btnSwitch) Button btnSwitch;
+    @BindView(R2.id.btnShare) Button btnShare;
+    @BindView(R2.id.boardShowing) CB boardShowing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_main);
+        ButterKnife.bind(this);
 
         // Show the ad
         /* AdRequest adRequest = new AdRequest.Builder().build();
         MobileAds.initialize(getApplicationContext(), "ca-app-pub-1882113672777118~2383929384");
 
         mAdView = (AdView) findViewById(R.id.adView);
-        mAdView.loadAd(adRequest);*/
+        mAdView.loadAd(adRequest);
 
         Button btnFirst = (Button) findViewById(R.id.btnFirst);
         Button btnPrev = (Button) findViewById(R.id.btnPrev);
         Button btnNext = (Button) findViewById(R.id.btnNext);
         Button btnLast = (Button) findViewById(R.id.btnLast);
         Button btnSwitch = (Button) findViewById(R.id.btnSwitch);
-        Button btnShare = (Button) findViewById(R.id.btnShare);
-        boardShowing = (CB) findViewById(R.id.boardShowing);
+        Button btnShare = (Button) findViewById(R.id.btnShare);*/
+
+        // boardShowing = (CB) findViewById(R.id.boardShowing);
 
         Intent intent = getIntent();
         // final Games allGames = (Games) intent.getSerializableExtra("DisplayedGames");
@@ -165,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
         4.0 - xxxhdpi
         */
         float scale = getApplicationContext().getResources().getDisplayMetrics().density;
-        Log.i("PGNHelper", String.valueOf(scale));
+        Log.i(tag, String.valueOf(scale));
     }
 
     private void next(TextView txtMove) {

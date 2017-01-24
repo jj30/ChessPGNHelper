@@ -1,6 +1,6 @@
-package bldg5.jj.pgnhelper.adapters;
+package bldg5.jj.pgnbase.adapters;
 
-import bldg5.jj.pgnhelper.common.Games;
+import bldg5.jj.pgnbase.common.Games;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

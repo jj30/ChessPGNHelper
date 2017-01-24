@@ -1,4 +1,4 @@
-package bldg5.jj.pgnhelper;
+package bldg5.jj.pgnbase;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,13 +8,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import java.util.HashMap;
 
-import bldg5.jj.pgnhelper.adapters.ApiEndpoint;
-import bldg5.jj.pgnhelper.adapters.ListViewAdapter;
-import bldg5.jj.pgnhelper.common.Game;
-import bldg5.jj.pgnhelper.common.Games;
+import bldg5.jj.pgnbase.adapters.ApiEndpoint;
+import bldg5.jj.pgnbase.adapters.ListViewAdapter;
+import bldg5.jj.pgnbase.common.Game;
+import bldg5.jj.pgnbase.common.Games;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,20 +23,23 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ListPlayers extends AppCompatActivity {
+    private static final String tag = "ListPlayers.java";
     // must end in a forward slash
     public static final String BASE_URL = "http://ec2-54-158-98-180.compute-1.amazonaws.com:8080/find_player/";
     private Games results;
+    @BindView(R2.id.playersList) ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        ButterKnife.bind(this);
 
         Intent intent = this.getIntent();
         String strWhite = (String) intent.getStringExtra("White");
         String strBlack = (String) intent.getStringExtra("Black");
 
-        final ListView listView = (ListView) findViewById(R.id.playersList);
+        // final ListView listView = (ListView) findViewById(R.id.playersList);
 
         getPlayers(listView, strWhite, strBlack);
 
@@ -101,7 +105,7 @@ public class ListPlayers extends AppCompatActivity {
                 ListViewAdapter playersListAdapter = new ListViewAdapter(hashMap);
                 lv.setAdapter(playersListAdapter);
 
-                Log.e("PGNHelper", t.toString());
+                Log.e(tag, t.toString());
             }
         });
     }
