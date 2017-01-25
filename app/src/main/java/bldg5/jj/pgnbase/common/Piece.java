@@ -65,7 +65,8 @@ public class Piece {
         if (bIsValid) {
             this.type = strType;
         } else {
-            throw new Exception("Invalid chess piece type: " + strType);
+            Error.sendError("Invalid chess piece type: " + strType);
+            // throw new Exception("Invalid chess piece type: " + strType);
         }
     }
 

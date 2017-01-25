@@ -22,6 +22,7 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import bldg5.jj.pgnbase.adapters.OnSwipeTouchListener;
+import bldg5.jj.pgnbase.common.Error;
 import bldg5.jj.pgnbase.common.Game;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R2.id.btnSwitch) Button btnSwitch;
     @BindView(R2.id.btnShare) Button btnShare;
     @BindView(R2.id.boardShowing) CB boardShowing;
+    @BindView(R2.id.txtCurrentMove) TextView txtMove;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,7 +196,6 @@ public class MainActivity extends AppCompatActivity {
     private void prev(TextView txtMove) {
         nMoveNumber = boardShowing.getMoveNumber() - 1;
         nMoveNumber = (nMoveNumber <= 0) ? 0 : nMoveNumber;
-
         boardShowing.setMoveNumber(nMoveNumber);
 
         // the pgn is set on instancing of CB so set the text view
@@ -223,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
 
-        final TextView txtMove = (TextView) findViewById(R.id.txtCurrentMove);
+        // final TextView txtMove = (TextView) findViewById(R.id.txtCurrentMove);
 
         outState.putInt("nMoveNumber", nMoveNumber);
         outState.putString("txtMove", txtMove.getText().toString());
@@ -232,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedState) {
         super.onRestoreInstanceState(savedState);
-        final TextView txtMove = (TextView) findViewById(R.id.txtCurrentMove);
+        // final TextView txtMove = (TextView) findViewById(R.id.txtCurrentMove);
         nMoveNumber = savedState.getInt("nMoveNumber");
 
         String move = savedState.getString("txtMove");

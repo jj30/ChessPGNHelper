@@ -3,6 +3,8 @@ package bldg5.jj.pgnbase;
 import android.util.Log;
 import org.json.JSONException;
 import java.util.HashMap;
+
+import bldg5.jj.pgnbase.common.Error;
 import bldg5.jj.pgnbase.common.Piece;
 
 public class Snapshot {
@@ -70,6 +72,9 @@ public class Snapshot {
         String[][] board = initBoard();
         int nLoop = (int) (toMoveNumber + 1) / 2;
 
+        if (aryPgns == null)
+            return board;
+
         for (int i = 1; i <= nLoop; i++) {
             String movePGN = aryPgns[i].trim();
             String white = movePGN.split(" ")[0];
@@ -79,7 +84,8 @@ public class Snapshot {
                 black = movePGN.split(" ")[1];
             }
             catch(ArrayIndexOutOfBoundsException ex) {
-                Log.i(tag, "Game ends on white move.");
+                // Log.i(tag, "Game ends on white move.");
+                Error.sendError("Game ends on white move. " + ex.getStackTrace().toString());
             } finally {
                 board = transform("w", white, board);
 
@@ -100,13 +106,18 @@ public class Snapshot {
         try {
             int nPGNMoveNumber = (int) (toUIMoveNumber + 1) / 2;
             String movePGN = aryPGNs[nPGNMoveNumber].trim();
-            String white = movePGN.split(" ")[0];
+            String[] movesPGN =  movePGN.split(" ");
+            String white = movesPGN[0];
             String black = "";
 
             try {
-                black = movePGN.split(" ")[1];
+                // sometimes there's an extra space in there,
+                // get the last element, that's the black move.
+                int nLast = movesPGN.length;
+                black = movePGN.split(" ")[nLast - 1];
             } catch (ArrayIndexOutOfBoundsException ex) {
-                Log.i(tag, "Game ends on white move.");
+                // Log.i(tag, "Game ends on white move.");
+                Error.sendError("Game ends on white move." + ex.getStackTrace().toString());
             } finally {
                 // which half of the PGN move is this? the 1st or the 2nd half?
                 if (toUIMoveNumber % 2 == 1)
@@ -116,7 +127,8 @@ public class Snapshot {
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
             // passed the last move in the game.
-            Log.e(tag, ex.getMessage());
+            // Log.e(tag, ex.getMessage());
+            Error.sendError("Passed last move." + ex.getStackTrace().toString());
         }
 
         return board;
@@ -185,7 +197,8 @@ public class Snapshot {
                         currentBoard[yDestroy][xDest] = "";
                     }
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    // ex.printStackTrace();
+                    Error.sendError(ex.getStackTrace().toString());
                 }
             }
         } else {
@@ -208,11 +221,13 @@ public class Snapshot {
                         currentBoard[yDest][xDest] = currentBoard[location[1]][location[0]];
                         currentBoard[location[1]][location[0]] = "";
                     } catch (ArrayIndexOutOfBoundsException ex) {
-                        Log.i(tag, "Did not find piece.");
+                        // Log.i(tag, "Did not find piece.");
+                        Error.sendError("Did not find piece. " + ex.getStackTrace().toString());
                     }
                 }
             } catch (Exception ex) {
-                ex.printStackTrace();
+                Error.sendError(ex.getStackTrace().toString());
+                // ex.printStackTrace();
             }
         }
 
@@ -246,8 +261,8 @@ public class Snapshot {
                 }
             }
         } catch (Exception ex) {
-
-            ex.printStackTrace();
+            Error.sendError(ex.getStackTrace().toString());
+            // ex.printStackTrace();
         }
         return new int[] { xSource, ySource };
     }
@@ -265,7 +280,9 @@ public class Snapshot {
                 int vRank = Integer.parseInt(hRank);
                 return findPiece(vRank, wb, sType, x, y, bCapture, board);
             }
-            catch( Exception e ) { }
+            catch( Exception ex ) {
+                Error.sendError(ex.getStackTrace().toString());
+            }
         }
 
         try {
@@ -288,8 +305,8 @@ public class Snapshot {
                     break;
             }
         } catch (Exception ex) {
-
-            ex.printStackTrace();
+            Error.sendError(ex.getStackTrace().toString());
+            // ex.printStackTrace();
         }
 
         return new int[] { xSource, ySource };
@@ -320,8 +337,8 @@ public class Snapshot {
                     break;
             }
         } catch (Exception ex) {
-
-            ex.printStackTrace();
+            // ex.printStackTrace();
+            Error.sendError(ex.getStackTrace().toString());
         }
 
         return new int[] { xSource, ySource };

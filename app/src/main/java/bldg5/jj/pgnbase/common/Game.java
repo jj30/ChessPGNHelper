@@ -164,7 +164,8 @@ public class Game implements Serializable {
             strReturn = String.format(strTemplate, strEvent, strSite, strDate, strRound, strResult, strWhite, strBlack, strECO, strWhiteELO, strBlackELO, strPGN);
 
         } catch(Exception x) {
-            Log.e(tag, x.getMessage());
+            // Log.e(tag, x.getMessage());
+            Error.sendError(x.getStackTrace().toString());
         }
 
         return strReturn;

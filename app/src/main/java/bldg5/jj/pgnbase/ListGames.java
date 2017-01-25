@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -13,9 +14,12 @@ import java.util.HashMap;
 import bldg5.jj.pgnbase.adapters.ListViewAdapter;
 import bldg5.jj.pgnbase.common.Game;
 import bldg5.jj.pgnbase.common.Games;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class ListGames extends AppCompatActivity {
     private static final String identifier =  "ID: ";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

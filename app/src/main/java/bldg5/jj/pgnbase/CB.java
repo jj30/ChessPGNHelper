@@ -11,6 +11,7 @@ import org.json.JSONException;
 
 import java.util.regex.Pattern;
 
+import bldg5.jj.pgnbase.common.Error;
 import bldg5.jj.pgnbase.common.Game;
 
 public class CB
@@ -190,7 +191,8 @@ public class CB
             currentBoard = board;
             Drawboard(board);
         } catch(Exception ex) {
-            Log.e(tag, ex.getMessage());
+            Error.sendError(ex.getStackTrace().toString());
+            // Log.e(tag, ex.getMessage());
         }
     }
 
@@ -219,7 +221,8 @@ public class CB
                 }
             }
         } catch (Exception ex) {
-            Log.e(tag, ex.getMessage());
+            Error.sendError(ex.getStackTrace().toString());
+            // Log.e(tag, ex.getMessage());
         }
     }
 
