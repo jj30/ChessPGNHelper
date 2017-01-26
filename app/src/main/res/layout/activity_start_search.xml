@@ -60,14 +60,14 @@
         android:layout_alignStart="@+id/editTextWhite"
         android:id="@+id/editTextBlack" />
 
-    <!--<CheckBox
+    <CheckBox
         android:text="Ignore Color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btnFindGames"
         android:layout_alignStart="@+id/btnFindGames"
         android:layout_marginBottom="17dp"
-        android:id="@+id/chkIgnoreColor" />-->
+        android:id="@+id/chkIgnoreColor" />
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"

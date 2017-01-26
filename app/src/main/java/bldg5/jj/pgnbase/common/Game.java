@@ -163,7 +163,7 @@ public class Game implements Serializable {
 
         } catch(Exception x) {
             // Log.e(tag, x.getMessage());
-            Error.sendError(x.getStackTrace().toString());
+            Error.sendError(x.getMessage());
         }
 
         return strReturn;

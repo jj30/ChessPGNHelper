@@ -41,9 +41,10 @@ public class ListPlayers extends AppCompatActivity {
         Intent intent = this.getIntent();
         final String strWhite = (String) intent.getStringExtra("White");
         final String strBlack = (String) intent.getStringExtra("Black");
+        final int nIC = (int) intent.getIntExtra("IgnoreColor", 0);
 
         // final ListView listView = (ListView) findViewById(R.id.playersList);
-        getPlayers(listView, strWhite, strBlack);
+        getPlayers(listView, strWhite, strBlack, nIC);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -52,6 +53,7 @@ public class ListPlayers extends AppCompatActivity {
 
                 String player_name = ((TextView) view.findViewById(R.id.txtName)).getText().toString();
                 params.putString("SelectedPlayer", player_name);
+                params.putInt("IgnoreColor", nIC);
                 params.putSerializable("DisplayedGames", results);
 
                 Intent navListGames = new Intent(ListPlayers.this, ListGames.class);
@@ -61,7 +63,7 @@ public class ListPlayers extends AppCompatActivity {
         });
     }
 
-    public void getPlayers(final ListView lv, final String white, final String black) {
+    public void getPlayers(final ListView lv, final String white, final String black, final int nIC) {
         if (white.equals("") && black.equals("")) {
             HashMap<String, String> hashMap = new HashMap<String, String>() {};
             hashMap.put("Please check your connection or search criteria.", "No games were found.");
@@ -77,7 +79,7 @@ public class ListPlayers extends AppCompatActivity {
                     .build();
 
             ApiEndpoint service = retrofit.create(ApiEndpoint.class);
-            Call<Games> call = service.getPlayers(white, black);
+            Call<Games> call = service.getPlayers(white, black, nIC);
 
             call.enqueue(new Callback<Games>() {
                 @Override
@@ -102,7 +104,8 @@ public class ListPlayers extends AppCompatActivity {
                         if (nNumGames == 0) {
                             hashMap.put("Please check your connection or search criteria.", "No games were found.");
                         }
-                    }
+                    } else
+                        hashMap.put("Please check your connection or search criteria.", "No games were found.");
 
                     ListViewAdapter playersListAdapter = new ListViewAdapter(hashMap);
                     lv.setAdapter(playersListAdapter);

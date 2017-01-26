@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.google.android.gms.ads.AdListener;
@@ -21,9 +22,8 @@ public class StartSearch extends AppCompatActivity {
     @BindView(R2.id.editTextWhite) EditText white;
     @BindView(R2.id.editTextBlack) EditText black;
     @BindView(R2.id.btnFindGames) Button btnSearch;
+    @BindView(R2.id.chkIgnoreColor) CheckBox chkIgnoreColor;
     InterstitialAd mInterstitialAd;
-    private Handler mHandler;       // Handler to display the ad on the UI thread
-    private Runnable displayAd;
 
 
     @Override
@@ -67,10 +67,12 @@ public class StartSearch extends AppCompatActivity {
     public void navToResults() {
         String strWhite = white.getText().toString().trim();
         String strBlack = black.getText().toString().trim();
+        int nIC = chkIgnoreColor.isChecked() ? 1: 0;
 
         Bundle params = new Bundle();
         params.putString("White", strWhite);
         params.putString("Black", strBlack);
+        params.putInt("IgnoreColor", nIC);
 
         Intent navMain = new Intent(StartSearch.this.getApplicationContext(), ListPlayers.class);
         navMain.putExtras(params);

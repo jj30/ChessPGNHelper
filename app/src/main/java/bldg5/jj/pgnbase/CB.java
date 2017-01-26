@@ -91,8 +91,12 @@ public class CB
         super(context, attrs);
         initializeViews(context);
 
-        String[][] board = Snapshot.PGN2Board(nMoveNumber, aryPGNs);
-        Drawboard(board);
+        try{
+            String[][] board = Snapshot.PGN2Board(nMoveNumber, aryPGNs);
+            Drawboard(board);
+        } catch(Exception ex) {
+            Error.sendError(ex.getMessage());
+        }
     }
 
     public Game getGame() {
@@ -100,32 +104,36 @@ public class CB
     }
 
     public void setGame(Game thisGame) {
-        game = thisGame;
-        pgns = thisGame.getPgn();
-        black = thisGame.getBlack();
-        white = thisGame.getWhite();
-        date = thisGame.getDate();
-        result = thisGame.getResult();
-        event = thisGame.getEvent();
-        eco = thisGame.getEco();
-        round = thisGame.getRound();
+        try {
+            game = thisGame;
+            pgns = thisGame.getPgn();
+            black = thisGame.getBlack();
+            white = thisGame.getWhite();
+            date = thisGame.getDate();
+            result = thisGame.getResult();
+            event = thisGame.getEvent();
+            eco = thisGame.getEco();
+            round = thisGame.getRound();
 
-        String str_regex = "\\d+\\.";
-        Pattern regex = Pattern.compile(str_regex, Pattern.DOTALL);
+            String str_regex = "\\d+\\.";
+            Pattern regex = Pattern.compile(str_regex, Pattern.DOTALL);
 
-        /* Matcher regexMatcher = regex.matcher(pgns);
-        int i = 0;
-        while (regexMatcher.find()) {
-            String move = regexMatcher.group(0);
-            aryPgns.add(i, move);
-            i++;
+            /* Matcher regexMatcher = regex.matcher(pgns);
+            int i = 0;
+            while (regexMatcher.find()) {
+                String move = regexMatcher.group(0);
+                aryPgns.add(i, move);
+                i++;
+            }
+            int numMoves = aryPgns.size();*/
+
+            aryPGNs = pgns.split(regex.toString());
+
+            // store the number of moves in this game
+            numMovesInGame = aryPGNs.length - 1;
+        } catch(Exception ex) {
+            Error.sendError(ex.getMessage());
         }
-        int numMoves = aryPgns.size();*/
-
-        aryPGNs = pgns.split(regex.toString());
-
-        // store the number of moves in this game
-        numMovesInGame = aryPGNs.length - 1;
     }
 
     public String getInfo() {
@@ -158,8 +166,12 @@ public class CB
     }
 
     public void initBoard() {
-        currentBoard = Snapshot.initBoard();
-        Drawboard(currentBoard);
+        try {
+            currentBoard = Snapshot.initBoard();
+            Drawboard(currentBoard);
+        } catch(Exception ex) {
+            Error.sendError(ex.getMessage());
+        }
     }
 
     public void toTheEnd() {
@@ -172,13 +184,21 @@ public class CB
     }
 
     public void toMoveNumber(int n) {
-        currentBoard = Snapshot.PGN2Board(n, aryPGNs);
-        Drawboard(currentBoard);
+        try {
+            currentBoard = Snapshot.PGN2Board(n, aryPGNs);
+            Drawboard(currentBoard);
+        } catch(Exception ex) {
+            Error.sendError(ex.getMessage());
+        }
     }
 
     public void switchSides() {
-        bIsFlipped = !bIsFlipped;
-        Drawboard(this.currentBoard);
+        try {
+            bIsFlipped = !bIsFlipped;
+            Drawboard(this.currentBoard);
+        } catch(Exception ex) {
+            Error.sendError(ex.getMessage());
+        }
     }
 
     public void halfMove() {
@@ -190,15 +210,19 @@ public class CB
             currentBoard = board;
             Drawboard(board);
         } catch(Exception ex) {
-            Error.sendError(ex.getStackTrace().toString());
+            Error.sendError(ex.getMessage());
             // Log.e(tag, ex.getMessage());
         }
     }
 
     public void halfMoveBackwards() {
-        String[][] board = Snapshot.PGN2Board(nMoveNumber, aryPGNs);
-        currentBoard = board;
-        Drawboard(board);
+        try {
+            String[][] board = Snapshot.PGN2Board(nMoveNumber, aryPGNs);
+            currentBoard = board;
+            Drawboard(board);
+        } catch(Exception ex) {
+            Error.sendError(ex.getMessage());
+        }
     }
 
     private void Drawboard(String[][] thisBoard) {
@@ -220,7 +244,7 @@ public class CB
                 }
             }
         } catch (Exception ex) {
-            Error.sendError(ex.getStackTrace().toString());
+            Error.sendError(ex.getMessage());
             // Log.e(tag, ex.getMessage());
         }
     }

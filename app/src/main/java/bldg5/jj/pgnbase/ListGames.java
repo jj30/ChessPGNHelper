@@ -26,6 +26,7 @@ public class ListGames extends AppCompatActivity {
         Intent intent = getIntent();
         final Games allGames = (Games) intent.getSerializableExtra("DisplayedGames");
         String selected_player = intent.getStringExtra("SelectedPlayer");
+        int nIC = (int) intent.getIntExtra("IgnoreColor", 0);
 
         HashMap<String, String> hashMap = new HashMap<String, String>() {};
 
@@ -33,7 +34,13 @@ public class ListGames extends AppCompatActivity {
         for (Game g : allGames.listGames) {
             CB getDesc = new CB(this.getApplicationContext(), g);
 
-            if (g.getWhite().equals(selected_player) || g.getBlack().equals(selected_player)) {
+            // if they checked the box to 'ignore color',
+            // then the black and the white player are listed.
+            // Whichever they clicked, assume is the 'white' player.
+            boolean bGameOk = (nIC == 1) ? (g.getWhite().equals(selected_player)):
+                    g.getWhite().equals(selected_player) || g.getBlack().equals(selected_player);
+
+            if (bGameOk) {
                 String game_desc = getDesc.getInfo();
                 hashMap.put(game_desc, identifier + String.valueOf(i));
             }

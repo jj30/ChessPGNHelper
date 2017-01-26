@@ -6,10 +6,11 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface ApiEndpoint {
-    @GET("/find_player/")
+    @GET("/find_player_wic/")
     Call<Games> getPlayers(
-            @Query("w") String white,
-            @Query("b") String black
+        @Query("w") String white,
+        @Query("b") String black,
+        @Query("ic") int ic
     );
 
     @GET("/log_err/")
