@@ -1,7 +1,7 @@
 package bldg5.jj.pgnbase;
 
-import android.util.Log;
 import org.json.JSONException;
+
 import java.util.HashMap;
 
 import bldg5.jj.pgnbase.common.Error;

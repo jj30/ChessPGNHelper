@@ -1,8 +1,6 @@
 package bldg5.jj.pgnbase.common;
 
 
-import android.util.Log;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

@@ -1,23 +1,21 @@
 package bldg5.jj.pgnbase;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import java.util.HashMap;
 
 import bldg5.jj.pgnbase.adapters.ApiEndpoint;
 import bldg5.jj.pgnbase.adapters.ListViewAdapter;
+import bldg5.jj.pgnbase.common.Error;
 import bldg5.jj.pgnbase.common.Game;
 import bldg5.jj.pgnbase.common.Games;
-import bldg5.jj.pgnbase.common.Error;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;

@@ -1,13 +1,10 @@
 package bldg5.jj.pgnbase.common;
 
 import android.util.Log;
-import android.view.View;
-import android.widget.ListView;
 
 import java.util.HashMap;
 
 import bldg5.jj.pgnbase.adapters.ApiEndpoint;
-import bldg5.jj.pgnbase.adapters.ListViewAdapter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

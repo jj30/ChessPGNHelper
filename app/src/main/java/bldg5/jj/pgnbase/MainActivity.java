@@ -22,7 +22,6 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import bldg5.jj.pgnbase.adapters.OnSwipeTouchListener;
-import bldg5.jj.pgnbase.common.Error;
 import bldg5.jj.pgnbase.common.Game;
 import butterknife.BindView;
 import butterknife.ButterKnife;
