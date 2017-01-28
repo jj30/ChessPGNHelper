@@ -167,7 +167,7 @@ if __name__ == '__main__':
     cur = conn.pgns.allPGNs
 
     # trailing backslash important
-    pgn_folder = "./ah/"
+    pgn_folder = "./Latest/"
     allInFolder(pgn_folder, cur)
 
     # conn.commit()

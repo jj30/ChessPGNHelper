@@ -27,7 +27,7 @@
         android:id="@+id/txtCurrentMove"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="70dp"
         android:layout_marginLeft="10dp"
         android:gravity="bottom"/>
 
@@ -63,7 +63,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/btnSwitch" />
         <Button
-            android:text=""
             android:background="@drawable/ic_share_black_24dp"
             android:layout_width="65dp"
             android:layout_height="wrap_content"

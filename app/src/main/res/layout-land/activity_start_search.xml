@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_start_search"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,45 +11,59 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="bldg5.jj.pgnbase.StartSearch">
 
-    <TextView
-        android:text="White"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="58dp"
-        android:layout_margin="45dp"
-        android:id="@+id/txtWhite" />
+        android:orientation="horizontal">
+        <TextView
+            android:text="White"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:id="@+id/txtWhite" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="White"
-        android:ems="10"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/txtWhite"
-        android:layout_marginTop="31dp"
-        android:id="@+id/editTextWhite" />
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="White"
+            android:ems="10"
+            android:layout_alignParentTop="true"
+            android:gravity="right"
+            android:id="@+id/editTextWhite" />
+    </RelativeLayout>
 
-    <TextView
-        android:text="Black"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editTextWhite"
-        android:layout_alignStart="@+id/txtWhite"
-        android:layout_marginTop="63dp"
-        android:id="@+id/txtBlack" />
+        android:orientation="horizontal"
+        android:layout_marginTop="100dp">
+        <TextView
+            android:text="Black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:id="@+id/txtBlack" />
 
-    <EditText
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="Black"
+            android:ems="10"
+            android:gravity="right"
+            android:layout_alignTop="@+id/txtBlack"
+            android:id="@+id/editTextBlack" />
+    </RelativeLayout>
+
+    <CheckBox
+        android:text="Ignore Color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Black"
-        android:ems="10"
-        android:layout_alignTop="@+id/txtBlack"
-        android:layout_alignStart="@+id/editTextWhite"
-        android:id="@+id/editTextBlack" />
+        android:layout_above="@+id/btnFindGames"
+        android:layout_alignStart="@+id/btnFindGames"
+        android:layout_marginBottom="17dp"
+        android:id="@+id/chkIgnoreColor" />
 
     <Button
         android:text="Find Games"
@@ -56,15 +71,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/btnFindGames"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/editTextBlack"
         android:layout_marginBottom="12dp" />
 
-    <!--<CheckBox
-        android:text="Ignore Color"
-        android:layout_width="wrap_content"
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btnFindGames"
-        android:layout_alignStart="@+id/btnFindGames"
-        android:layout_marginBottom="17dp"
-        android:id="@+id/chkIgnoreColor" />-->
+        android:layout_marginTop="50dp"
+        ads:adSize="FULL_BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id"
+        android:layout_gravity="top|right">
+    </com.google.android.gms.ads.AdView>
 </RelativeLayout>
