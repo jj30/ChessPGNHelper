@@ -77,11 +77,13 @@ public class Snapshot {
 
         for (int i = 1; i <= nLoop; i++) {
             String movePGN = aryPgns[i].trim();
-            String white = movePGN.split(" ")[0];
+
+            // \\s+ splits any number of whitespace, two spaces or one
+            String white = movePGN.split("\\s+")[0];
             String black = "";
 
             try {
-                black = movePGN.split(" ")[1];
+                black = movePGN.split("\\s+")[1];
             }
             catch(ArrayIndexOutOfBoundsException ex) {
                 // Log.i(tag, "Game ends on white move.");
@@ -106,15 +108,14 @@ public class Snapshot {
         try {
             int nPGNMoveNumber = (int) (toUIMoveNumber + 1) / 2;
             String movePGN = aryPGNs[nPGNMoveNumber].trim();
-            String[] movesPGN =  movePGN.split(" ");
+            String[] movesPGN =  movePGN.split("\\s+");
             String white = movesPGN[0];
             String black = "";
 
             try {
-                // sometimes there's an extra space in there,
                 // get the last element, that's the black move.
                 int nLast = movesPGN.length;
-                black = movePGN.split(" ")[nLast - 1];
+                black = movePGN.split("\\s+")[nLast - 1];
             } catch (ArrayIndexOutOfBoundsException ex) {
                 // Log.i(tag, "Game ends on white move.");
                 Error.sendError("Game ends on white move." + ex.getMessage());
@@ -211,11 +212,18 @@ public class Snapshot {
                 yDest = yAxis.indexOf(intersect(yAxis, move));
 
                 if (move.contains("=")) {
-                    // pawn promotion, remove pawn, add queen.
-                    // queen goes on xDest, yDest
-                    currentBoard[yDest][xDest] = wb == "w" ? "wq" : "bq";
-                    int ySource = wb == "w" ? 6 : 1;
-                    currentBoard[ySource][xDest] = "";
+                    try {
+                        // poss types R, N, B, Q, K, P
+                        String strTo = move.split("=")[1].toLowerCase().trim();
+
+                        // pawn promotion, remove pawn, add "queen."
+                        // "queen" goes on xDest, yDest
+                        currentBoard[yDest][xDest] = wb + strTo;
+                        int ySource = wb == "w" ? 6 : 1;
+                        currentBoard[ySource][xDest] = "";
+                    } catch(Exception e) {
+                        Error.sendError("Trying to promote a pawn. " + e.getMessage());
+                    }
                 } else {
                     int[] location = findPiece(hFileRank, wb, xOther, xDest, yDest, bCapture, currentBoard);
 

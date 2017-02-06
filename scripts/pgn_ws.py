@@ -20,10 +20,10 @@ class GetOptions(object):
             regex_w = re.compile(w, re.IGNORECASE)
             regex_b = re.compile(b, re.IGNORECASE)
 
-            conn = MongoClient("mongodb://ec2-54-158-98-180.compute-1.amazonaws.com:27017/pgns")
-            cur = conn.pgns.allPGNs
+            conn = MongoClient("mongodb://ec2-54-158-98-180.compute-1.amazonaws.com:27017/pgns_new")
+            cur = conn.pgns_new.allPGNs
 
-            if (ic == 0):
+            if (ic == u'0'):
                 all_results = cur.find({ "White" : { "$regex" : regex_w }, "Black" : { "$regex" : regex_b } }, { '_id' : False }).limit(100).sort("White", pymongo.ASCENDING)
             else:
                 all_results = cur.find({ "White" : { "$in" : [regex_w, regex_b] }, "Black" : { "$in" : [regex_w, regex_b] }}, { '_id' : False }).limit(100).sort("White", pymongo.ASCENDING)
@@ -45,8 +45,8 @@ class GetOptions(object):
         all_results = []
         if (browserOk):
             regex_w = re.compile(w, re.IGNORECASE)
-            conn = MongoClient("mongodb://ec2-54-158-98-180.compute-1.amazonaws.com:27017/pgns")
-            cur = conn.pgns.allPGNs
+            conn = MongoClient("mongodb://ec2-54-158-98-180.compute-1.amazonaws.com:27017/pgns_new")
+            cur = conn.pgns_new.allPGNs
 
             all_results = cur.find({ "White" : { "$regex" : regex_w } }, { 'White' : True, '_id' : False }).distinct("White")
         else:
@@ -65,8 +65,8 @@ class GetOptions(object):
             regex_w = re.compile(w, re.IGNORECASE)
             regex_b = re.compile(b, re.IGNORECASE)
 
-            conn = MongoClient("mongodb://ec2-54-158-98-180.compute-1.amazonaws.com:27017/pgns")
-            cur = conn.pgns.allPGNs
+            conn = MongoClient("mongodb://ec2-54-158-98-180.compute-1.amazonaws.com:27017/pgns_new")
+            cur = conn.pgns_new.allPGNs
 
             all_results = cur.find({ "White" : { "$regex" : regex_w }, "Black" : { "$regex" : regex_b } }, { "Black" : True, "_id" : False }).distinct("Black")
         else:
@@ -76,16 +76,16 @@ class GetOptions(object):
 
     @cherrypy.expose
     def more_notes(self):
-        str_return = '<html><head><title>More about Chess PGN Helper</title></head><body>1/28/17.<P>This is more information \
-            about the PGN Helper. At current writing, we have about 288K games, some of which are duplicates. \
-            We are always working to tidy up our data. More features will follow over the coming months. If you want to share \
-            an interesting PGN, or if you want to request a feature in the application -- \
-            <a href="mailto:janjansz90210@gmail.com?subject=Chess PGN Helper">send it to me.</a><P>Latest tweaks: auto-complete. \
-            For the white player, auto-complete is unrestricted; for the black one, the players are limited to the ones that had \
-            matches with the white player. This means, conceivably, that if you pick "Bobby Fischer" and not "Robert Fischer", \
-            you may not find the game you\'re looking for; if you feel this is the case, do not pick an option from the auto-complete \
-            suggestions, and run the search with three or four characters in each player\'s name, eg. \'Fisc\'. <P>\
-            Please be patient, as there are 26K+ players.</body></html>'
+        str_return = '<!DOCTYPE html> \
+            <html>\
+            <head>\
+               <meta http-equiv="refresh" content="0; url=http://chesspgnhelper.blogspot.com/">\
+            </head>\
+            <body>\
+               <p>The page has moved to:\
+               <a href="http://chesspgnhelper.blogspot.com/">this page</a></p>\
+            </body>\
+            </html>'
 
         return str_return
 

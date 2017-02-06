@@ -58,13 +58,14 @@ public class CB
 
             String movePGN = aryPGNs[nPGNMoveNumber].trim();
 
-            strWhite = movePGN.toString().split(" ")[0];
-            strBlack = movePGN.toString().split(" ")[1];
+            // \\s+ splits any number of whitespace, two spaces or one
+            strWhite = movePGN.toString().split("\\s+")[0];
+            strBlack = movePGN.toString().split("\\s+")[1];
 
             if (nMoveNumber % 2 == 1)
-                strReturn = strWhite;
+                strReturn = String.valueOf(nPGNMoveNumber) + ". " + strWhite;
             else
-                strReturn = strBlack;
+                strReturn = String.valueOf(nPGNMoveNumber) + ". ..." +  strBlack;
 
             // if there are comments, even one, it's in an array, ie ["just this one comment"]
             if (movePGN.contains("{") && movePGN.contains("}")) {
