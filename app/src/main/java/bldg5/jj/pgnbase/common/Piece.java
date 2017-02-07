@@ -182,6 +182,8 @@ public class Piece {
             boolean bHorizontalOk = (bDoesCapture && (xDestination - 1 == x || xDestination == x - 1)) ||
                     (!bDoesCapture && x == xDestination);
 
+            bClearPath = checkPath(x, y, xDestination, yDestination);
+
             if (this.color == "w") {
                 bResult = (yDestination == y + 1 && bHorizontalOk) ||
                         (x == xDestination && y == 1 && yDestination == 3);
@@ -189,6 +191,8 @@ public class Piece {
                 bResult = (yDestination == y - 1 && bHorizontalOk) ||
                         (x == xDestination && y == 6 && yDestination == 4);
             }
+
+            bResult = bResult && bClearPath;
         }
 
         return  bResult;
