@@ -12,7 +12,7 @@ Figure 3: Instead, Carlsen trades rook for knight.
 
 But why?
 
-Because they reached a detente not to trade queens. If you want to study more chess games, this Android application will help you. We have about 288 K games in the cloud. Feel free to study and learn from them.
+Because they reached a detente not to trade queens. Such agreements are reached if BOTH queens are left vulnerable, and they were both vulnerable for two full moves. If you want to study more chess games, this Android application will help you. We have about 288 K games in the cloud. Feel free to study and learn from them.
 
 ![Figure 4:](https://github.com/jj30/ChessPGNHelper/blob/master/images/clipboard.png?raw=true)
 
