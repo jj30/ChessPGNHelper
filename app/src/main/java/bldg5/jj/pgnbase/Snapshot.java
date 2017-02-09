@@ -77,13 +77,14 @@ public class Snapshot {
 
         for (int i = 1; i <= nLoop; i++) {
             String movePGN = aryPgns[i].trim();
+            String movePGNMinusComments = splitCommentsMove(movePGN)[0];
 
             // \\s+ splits any number of whitespace, two spaces or one
-            String white = movePGN.split("\\s+")[0];
+            String white = movePGNMinusComments.split("\\s+")[0];
             String black = "";
 
             try {
-                black = movePGN.split("\\s+")[1];
+                black = movePGNMinusComments.split("\\s+")[1];
             }
             catch(ArrayIndexOutOfBoundsException ex) {
                 // Log.i(tag, "Game ends on white move.");
@@ -108,14 +109,14 @@ public class Snapshot {
         try {
             int nPGNMoveNumber = (int) (toUIMoveNumber + 1) / 2;
             String movePGN = aryPGNs[nPGNMoveNumber].trim();
-            String[] movesPGN =  movePGN.split("\\s+");
+            String movePGNMinusComments = splitCommentsMove(movePGN)[0];
+
+            String[] movesPGN =  movePGNMinusComments.split("\\s+");
             String white = movesPGN[0];
             String black = "";
 
             try {
-                // get the last element, that's the black move.
-                int nLast = movesPGN.length;
-                black = movePGN.split("\\s+")[nLast - 1];
+                black = movePGNMinusComments.split("\\s+")[1];
             } catch (ArrayIndexOutOfBoundsException ex) {
                 // Log.i(tag, "Game ends on white move.");
                 Error.sendError("Game ends on white move." + ex.getMessage());
@@ -135,7 +136,27 @@ public class Snapshot {
         return board;
     }
 
+    // Same function in CB.java.
+    // TODO Consolidate
+    private static String[] splitCommentsMove(String strIn) {
+        String moveWOComments = "";
+        String allComments = "";
+        String str_regex = "[{}]";
+        String[] ary = strIn.split(str_regex);
+
+        for (String elem : ary){
+            allComments += (elem.contains("[") && elem.contains("]")) ? elem: "";
+            moveWOComments += (elem.contains("[") && elem.contains("]")) ? "": elem;
+        }
+
+        return new String[] { moveWOComments, allComments };
+    }
+
+
     public static String[][] transform(String wb, String move, String[][] currentBoard) {
+        // they put a pound sign at the end of the game ...
+        // for no good reason that i can think of
+        move = move.replace("#", "");
         if (move.equals(""))
             return currentBoard;
 

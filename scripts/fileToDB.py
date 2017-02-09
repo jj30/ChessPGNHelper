@@ -166,7 +166,7 @@ def perFile(fileName, cur, s_conn, s_cur):
             # elif line_upper.find("[PLYCOUNT") > -1:
             elif "[PLYCOUNT" in line_upper:
                 this_game.PlyCount = getValue(line)
-            elif "[" in line_upper:
+            elif line_upper[0] == "[":
                 # curve balls bc there is no standard set of tags for these files
                 # so if there is [RandomNewTag], the line will be ignored and
                 # not added to the pgns
@@ -193,5 +193,6 @@ if __name__ == '__main__':
     cur = conn.pgns.allPGNs
 
     # trailing backslash important
-    pgn_folder = "./AllPGNs/"
+    # pgn_folder = "./AllPGNs/"
+    pgn_folder = "./Latest/"
     allInFolder(pgn_folder, cur, sqlite_conn, sqlite_cur)

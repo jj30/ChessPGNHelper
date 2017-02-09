@@ -57,10 +57,11 @@ public class CB
             String strBlack = "";
 
             String movePGN = aryPGNs[nPGNMoveNumber].trim();
+            String movePGNMinusComments = splitCommentsMove(movePGN)[0];
 
             // \\s+ splits any number of whitespace, two spaces or one
-            strWhite = movePGN.toString().split("\\s+")[0];
-            strBlack = movePGN.toString().split("\\s+")[1];
+            strWhite = movePGNMinusComments.toString().split("\\s+")[0];
+            strBlack = movePGNMinusComments.toString().split("\\s+")[1];
 
             if (nMoveNumber % 2 == 1)
                 strReturn = String.valueOf(nPGNMoveNumber) + ". " + strWhite;
@@ -69,8 +70,7 @@ public class CB
 
             // if there are comments, even one, it's in an array, ie ["just this one comment"]
             if (movePGN.contains("{") && movePGN.contains("}")) {
-                String str_regex = "[{}]";
-                String moveComment = movePGN.split(str_regex.toString())[1].trim();
+                String moveComment = splitCommentsMove(movePGN)[1];
                 strReturn += "\n" + moveComment;
             }
 
@@ -79,6 +79,20 @@ public class CB
         }
 
         return strReturn;
+    }
+
+    private String[] splitCommentsMove(String strIn) {
+        String moveWOComments = "";
+        String allComments = "";
+        String str_regex = "[{}]";
+        String[] ary = strIn.split(str_regex);
+
+        for (String elem : ary){
+            allComments += (elem.contains("[") && elem.contains("]")) ? elem: "";
+            moveWOComments += (elem.contains("[") && elem.contains("]")) ? "": elem;
+        }
+
+        return new String[] { moveWOComments, allComments };
     }
 
     public CB(Context context, Game game) {
